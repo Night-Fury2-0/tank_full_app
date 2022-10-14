@@ -31,8 +31,7 @@ class NavBar extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) => const DownloadScreen()),
+                  MaterialPageRoute(builder: (context) => DownloadScreen()),
                 );
               }),
           ListTile(

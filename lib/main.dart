@@ -3,7 +3,7 @@ import 'NavBar.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MaterialApp(home: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
