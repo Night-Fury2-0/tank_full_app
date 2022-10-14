@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'NavBar.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 
+import 'settings_screen.dart';
+import 'help_screen.dart';
+
 void main() {
   runApp(MaterialApp(home: MyApp()));
 }
@@ -75,9 +78,35 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       drawer: NavBar(),
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
+        actions: <Widget>[
+          Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SettingsScreen()),
+                  );
+                },
+                child: Icon(
+                  Icons.settings,
+                  size: 26.0,
+                ),
+              )),
+          Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const HelpScreen()),
+                  );
+                },
+                child: Icon(Icons.help),
+              )),
+        ],
       ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it

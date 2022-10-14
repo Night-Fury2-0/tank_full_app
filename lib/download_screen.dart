@@ -3,6 +3,9 @@ import 'package:water_v3/pdf_previewer.dart';
 import 'NavBar.dart';
 import 'pdf_data.dart';
 
+import 'settings_screen.dart';
+import 'help_screen.dart';
+
 class DownloadScreen extends StatelessWidget {
   final Output test = Output('September-October');
   DownloadScreen({super.key});
@@ -10,9 +13,38 @@ class DownloadScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: NavBar(),
+        //drawer: NavBar(),
         appBar: AppBar(
           title: const Text('Download Screen'),
+          actions: <Widget>[
+            Padding(
+                padding: EdgeInsets.only(right: 20.0),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SettingsScreen()),
+                    );
+                  },
+                  child: Icon(
+                    Icons.settings,
+                    size: 26.0,
+                  ),
+                )),
+            Padding(
+                padding: EdgeInsets.only(right: 20.0),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const HelpScreen()),
+                    );
+                  },
+                  child: Icon(Icons.help),
+                )),
+          ],
         ),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
