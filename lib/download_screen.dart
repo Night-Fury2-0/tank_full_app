@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'NavBar.dart';
 
 class DownloadScreen extends StatelessWidget {
   const DownloadScreen({super.key});
@@ -6,6 +7,7 @@ class DownloadScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: NavBar(),
       appBar: AppBar(
         title: const Text('Download Screen'),
       ),

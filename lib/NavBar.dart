@@ -22,7 +22,8 @@ class NavBar extends StatelessWidget {
               leading: const Icon(Icons.home),
               title: const Text('Home'),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                    '/', (Route<dynamic> route) => false);
               }),
           ListTile(
               leading: const Icon(Icons.download),

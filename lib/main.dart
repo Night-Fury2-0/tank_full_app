@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'NavBar.dart';
+import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 
 void main() {
   runApp(const MyApp());
@@ -48,9 +49,21 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+Path _buildBoatPath() {
+  return Path()
+    ..moveTo(15, 120)
+    ..lineTo(0, 85)
+    ..lineTo(50, 85)
+    ..lineTo(50, 0)
+    ..lineTo(105, 80)
+    ..lineTo(60, 80)
+    ..lineTo(60, 85)
+    ..lineTo(120, 85)
+    ..lineTo(105, 120)
+    ..close();
+}
 
+class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -86,9 +99,17 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'Home Page',
-            ),
+            LiquidCustomProgressIndicator(
+              value: 0.3, // Defaults to 0.5.
+              valueColor: AlwaysStoppedAnimation(
+                  Colors.blue), // Defaults to the current Theme's accentColor.
+              backgroundColor: Colors
+                  .white, // Defaults to the current Theme's backgroundColor.
+              direction: Axis
+                  .vertical, // The direction the liquid moves (Axis.vertical = bottom to top, Axis.horizontal = left to right).
+              shapePath:
+                  _buildBoatPath(), // A Path object used to draw the shape of the progress indicator. The size of the progress indicator is created from the bounds of this path.
+            )
           ],
         ),
       ),
