@@ -1,4 +1,8 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'download_screen.dart';
 import 'about_screen.dart';
 import 'settings_screen.dart';
@@ -65,10 +69,17 @@ class NavBar extends StatelessWidget {
               }),
           const Divider(),
           ListTile(
-            title: const Text('Exit'),
-            leading: const Icon(Icons.exit_to_app),
-            onTap: () => null,
-          ),
+              title: const Text('Exit'),
+              leading: const Icon(Icons.exit_to_app),
+              onTap: () => {
+                    if (defaultTargetPlatform == TargetPlatform.android)
+                      {
+                        SystemChannels.platform
+                            .invokeMethod('SystemNavigator.pop')
+                      }
+                    else
+                      {exit(0)}
+                  }),
           const Divider(),
         ],
       ),
