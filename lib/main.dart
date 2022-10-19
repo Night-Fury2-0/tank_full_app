@@ -54,21 +54,20 @@ class MyHomePage extends StatefulWidget {
 
 Path _buildBoatPath() {
   return Path()
-    ..moveTo(15, 120)
-    ..lineTo(0, 85)
-    ..lineTo(50, 85)
-    ..lineTo(50, 0)
-    ..lineTo(105, 80)
-    ..lineTo(60, 80)
-    ..lineTo(60, 85)
-    ..lineTo(120, 85)
-    ..lineTo(105, 120)
+    //..moveTo(50, 120)
+    ..lineTo(0, 200)
+    ..lineTo(200, 200)
+    ..lineTo(200, 0)
+    ..lineTo(0, 0)
     ..close();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
+    var level = 0.55;
+    final percentage = level * 100;
+
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -129,16 +128,25 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             LiquidCustomProgressIndicator(
-              value: 0.3, // Defaults to 0.5.
-              valueColor: AlwaysStoppedAnimation(
-                  Colors.blue), // Defaults to the current Theme's accentColor.
-              backgroundColor: Colors
-                  .white, // Defaults to the current Theme's backgroundColor.
-              direction: Axis
-                  .vertical, // The direction the liquid moves (Axis.vertical = bottom to top, Axis.horizontal = left to right).
-              shapePath:
-                  _buildBoatPath(), // A Path object used to draw the shape of the progress indicator. The size of the progress indicator is created from the bounds of this path.
-            )
+                value: level, // Defaults to 0.5.
+                valueColor: AlwaysStoppedAnimation(Colors
+                    .blue), // Defaults to the current Theme's accentColor.
+                backgroundColor: Color.fromARGB(255, 48, 40,
+                    40), // Defaults to the current Theme's backgroundColor.
+                direction: Axis
+                    .vertical, // The direction the liquid moves (Axis.vertical = bottom to top, Axis.horizontal = left to right).
+                shapePath:
+                    _buildBoatPath(), // A Path object used to draw the shape of the progress indicator. The size of the progress indicator is created from the bounds of this path.
+                //var percentage,
+
+                center: Text(
+                  "${percentage.toStringAsFixed(0)}%",
+                  style: TextStyle(
+                    color: Colors.lightBlueAccent,
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ))
           ],
         ),
       ),
