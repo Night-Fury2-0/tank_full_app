@@ -5,6 +5,8 @@ import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'settings_screen.dart';
 import 'help_screen.dart';
 
+import 'package:push/push.dart';
+
 void main() {
   runApp(MaterialApp(home: MyApp()));
 }
@@ -54,7 +56,6 @@ class MyHomePage extends StatefulWidget {
 
 Path _buildBoatPath() {
   return Path()
-    //..moveTo(50, 120)
     ..lineTo(0, 200)
     ..lineTo(200, 200)
     ..lineTo(200, 0)
@@ -65,9 +66,15 @@ Path _buildBoatPath() {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    var level = 0.55;
-    final percentage = level * 100;
+    var level = 0.65;
 
+    final percentage = level * 100;
+    var color;
+    if (level <= 0.25) {
+      color = AlwaysStoppedAnimation(Colors.red);
+    } else {
+      color = AlwaysStoppedAnimation(Colors.blue);
+    }
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -125,14 +132,15 @@ class _MyHomePageState extends State<MyHomePage> {
           // center the children vertically; the main axis here is the vertical
           // axis because Columns are vertical (the cross axis would be
           // horizontal).
+
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             LiquidCustomProgressIndicator(
                 value: level, // Defaults to 0.5.
-                valueColor: AlwaysStoppedAnimation(Colors
-                    .blue), // Defaults to the current Theme's accentColor.
-                backgroundColor: Color.fromARGB(255, 48, 40,
-                    40), // Defaults to the current Theme's backgroundColor.
+                valueColor:
+                    color, // Defaults to the current Theme's accentColor.
+                backgroundColor: Color.fromARGB(255, 130, 123,
+                    123), // Defaults to the current Theme's backgroundColor.
                 direction: Axis
                     .vertical, // The direction the liquid moves (Axis.vertical = bottom to top, Axis.horizontal = left to right).
                 shapePath:
@@ -142,7 +150,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 center: Text(
                   "${percentage.toStringAsFixed(0)}%",
                   style: TextStyle(
-                    color: Colors.lightBlueAccent,
+                    color: Color.fromARGB(255, 48, 40, 40),
                     fontSize: 20.0,
                     fontWeight: FontWeight.bold,
                   ),
