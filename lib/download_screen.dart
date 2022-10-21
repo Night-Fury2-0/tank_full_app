@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:water_v3/pdf_previewer.dart';
+import 'package:tankfull_app/pdf_previewer.dart';
 import 'NavBar.dart';
 import 'pdf_data.dart';
 

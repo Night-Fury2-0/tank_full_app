@@ -126,8 +126,11 @@ class _MyHomePageState extends State<MyHomePage> {
           // center the children vertically; the main axis here is the vertical
           // axis because Columns are vertical (the cross axis would be
           // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
+            //Tank widget and graph widgets go inside this "children" container(?)
+
+            //Tank code goes here********************************************************************************
             LiquidCustomProgressIndicator(
               value: 0.3, // Defaults to 0.5.
               valueColor: AlwaysStoppedAnimation(
@@ -138,7 +141,101 @@ class _MyHomePageState extends State<MyHomePage> {
                   .vertical, // The direction the liquid moves (Axis.vertical = bottom to top, Axis.horizontal = left to right).
               shapePath:
                   _buildBoatPath(), // A Path object used to draw the shape of the progress indicator. The size of the progress indicator is created from the bounds of this path.
-            )
+            ),
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //*******************************************************************************************************************************************
+
+            //Graph code goes here**********************************************************************************************************************
+            Text("Graph 1 goes here"),
+            Text("Graph 2 goes here"),
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //*
           ],
         ),
       ),
