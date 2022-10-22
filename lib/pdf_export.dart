@@ -11,7 +11,7 @@ final Output test = Output('September-October');
 Future<Uint8List> makePdf(Output data) async {
   final pdf = Document();
   pdf.addPage(Page(
-      pageFormat: PdfPageFormat.a4,
+      //pageFormat: PdfPageFormat.a4,
       build: (context) {
         return ListView(
           //Everything insinde here is what shows on the exported pdf.
