@@ -46,10 +46,14 @@ class _GraphState extends State<Graph> {
                 text: widget
                     .graphTitle), //widget.graphTitle is a way to get the variable parameter accepted in Graph
             series: <ChartSeries<GraphData, String>>[
-          LineSeries(
+          AreaSeries(
               dataSource: data,
+              gradient: LinearGradient(colors: [
+                Color.fromARGB(255, 33, 184, 243),
+                Color.fromARGB(255, 3, 115, 244)
+              ]),
               xValueMapper: (GraphData data, _) => data.day,
-              yValueMapper: (GraphData data, _) => data.liter)
+              yValueMapper: (GraphData data, _) => data.liter),
         ]));
   }
 }
