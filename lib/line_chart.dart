@@ -52,6 +52,7 @@ class _GraphState extends State<Graph> {
                 Color.fromARGB(255, 33, 184, 243),
                 Color.fromARGB(255, 3, 115, 244)
               ]),
+              opacity: 0.75,
               xValueMapper: (GraphData data, _) => data.day,
               yValueMapper: (GraphData data, _) => data.liter),
         ]));

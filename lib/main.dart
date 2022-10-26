@@ -192,6 +192,7 @@ class _MyHomePageState extends State<MyHomePage> {
             const Card(
               child: SizedBox(
                   height: 200,
+                  width: 350,
                   child: Graph(
                     graphTitle: 'In flow',
                   )),
@@ -199,6 +200,7 @@ class _MyHomePageState extends State<MyHomePage> {
             const Card(
               child: SizedBox(
                   height: 200,
+                  width: 350,
                   child: Graph(
                     graphTitle: 'Out flow',
                   )),
