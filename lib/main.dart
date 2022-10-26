@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'NavBar.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
-
+import 'line_chart.dart';
 import 'settings_screen.dart';
 import 'help_screen.dart';
 
@@ -189,8 +189,20 @@ class _MyHomePageState extends State<MyHomePage> {
             //*******************************************************************************************************************************************
 
             //Graph code goes here**********************************************************************************************************************
-            Text("Graph 1 goes here"),
-            Text("Graph 2 goes here"),
+            const Card(
+              child: SizedBox(
+                  height: 200,
+                  child: Graph(
+                    graphTitle: 'In flow',
+                  )),
+            ),
+            const Card(
+              child: SizedBox(
+                  height: 200,
+                  child: Graph(
+                    graphTitle: 'Out flow',
+                  )),
+            ),
             //
             //
             //
