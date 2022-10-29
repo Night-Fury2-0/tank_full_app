@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'NavBar.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
+import 'package:native_notify/native_notify.dart';
 
 import 'settings_screen.dart';
 import 'help_screen.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  NativeNotify.initialize(2008, 'Z2e68owQIdIjAXVM5tbQu0',null,null);
   runApp(MaterialApp(home: MyApp()));
 }
 
