@@ -67,6 +67,9 @@ Path _buildBoatPath() {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final water_level = 100;
+  String status = "";
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -128,6 +131,15 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
+            ElevatedButton(
+              onPressed: () {
+                threshold();
+              },
+              child: Text('Check'),
+            ),
+            Container(
+              child: Text('Water Level is ' + status),
+            ),
             //Tank widget and graph widgets go inside this "children" container(?)
 
             //Tank code goes here********************************************************************************
@@ -240,6 +252,24 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     );
+  }
+
+  void threshold() {
+    String message = "";
+    int checker = 1;
+
+    if (water_level < 50 && checker == 1) {
+      message = "Bellow lower threshold";
+      checker = 0;
+    } else if (water_level > 200) {
+      message = "Above upper threshold";
+      checker = 1;
+    } else {
+      message = "Normal water level";
+      checker = 1;
+    }
+
+    setState(() => status = message);
   }
 }
 
