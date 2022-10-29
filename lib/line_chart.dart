@@ -41,7 +41,9 @@ class _GraphState extends State<Graph> {
     //Returns a widget. So when we use the Graph widget, it returns Containe, along with whatever is in there
     return Scaffold(
         body: SfCartesianChart(
-            primaryXAxis: CategoryAxis(), //what does this do?
+            primaryXAxis: CategoryAxis(),
+            primaryYAxis: CategoryAxis(
+                title: AxisTitle(text: "Liters")), //what does this do?
             title: ChartTitle(
                 text: widget
                     .graphTitle), //widget.graphTitle is a way to get the variable parameter accepted in Graph
