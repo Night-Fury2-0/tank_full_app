@@ -8,7 +8,7 @@ import 'help_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  NativeNotify.initialize(2008, 'Z2e68owQIdIjAXVM5tbQu0',null,null);
+  NativeNotify.initialize(2008, 'Z2e68owQIdIjAXVM5tbQu0', null, null);
   runApp(MaterialApp(home: MyApp()));
 }
 
