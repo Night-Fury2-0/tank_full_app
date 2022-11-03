@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'NavBar.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
+import 'package:lottie/lottie.dart';
 
 import 'settings_screen.dart';
 import 'help_screen.dart';
@@ -66,7 +67,28 @@ Path _buildBoatPath() {
     ..close();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> 
+  with SingleTickerProviderStateMixin {
+  
+  //Controller for the Lottie ( Used for tank animation )
+  late final AnimationController _controller;
+  
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = AnimationController(
+      duration: Duration(seconds: 3),
+      vsync: this,
+    );
+  }
+  
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -129,8 +151,24 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             //Tank widget and graph widgets go inside this "children" container(?)
+           
 
+            Lottie.network(
+              "https://assets1.lottiefiles.com/private_files/lf30_kqmwm4ae.json",
+              repeat: true,
+              controller: _controller,
+              onLoaded: (composition){
+                  _controller
+                  ..duration = composition.duration
+                  ..forward();
+
+
+                },
+              ),
+            
+            
             //Tank code goes here********************************************************************************
+           /*
             LiquidCustomProgressIndicator(
               value: 0.3, // Defaults to 0.5.
               valueColor: AlwaysStoppedAnimation(
@@ -142,6 +180,7 @@ class _MyHomePageState extends State<MyHomePage> {
               shapePath:
                   _buildBoatPath(), // A Path object used to draw the shape of the progress indicator. The size of the progress indicator is created from the bounds of this path.
             ),
+            */
             //
             //
             //
