@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'graph_data.dart';
 
 //This is the statefull widget class
 //Extends means we're inheriting from the StateFulWifget class
@@ -20,20 +21,7 @@ class Graph extends StatefulWidget {
 //In here we define data, and it can change state over time.
 //Whenever the data changes, it rebuilds the widget tree (Container and whatever is in it)
 class _GraphState extends State<Graph> {
-  List<GraphData> data = [
-    GraphData('Sept 1st', 12),
-    GraphData('Sept 2nd', 13),
-    GraphData('Sept 3rd', 12),
-    GraphData('Sept 4th', 6),
-    GraphData('Sept 5th', 4),
-    GraphData('Sept 6th', 5),
-    GraphData('Sept 7th', 14),
-    GraphData('Sept 8th', 16),
-    GraphData('Sept 9th', 13),
-    GraphData('Sept 10th', 9),
-    GraphData('Sept 11th', 12),
-    GraphData('Sept 12th', 15)
-  ];
+  List<GraphData> data = getdata();
   @override
 
   //Build function
@@ -59,12 +47,4 @@ class _GraphState extends State<Graph> {
               yValueMapper: (GraphData data, _) => data.liter),
         ]));
   }
-}
-
-//Create a class just for data
-class GraphData {
-  GraphData(this.day, this.liter);
-
-  String day;
-  double liter;
 }
