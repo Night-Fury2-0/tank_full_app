@@ -20,7 +20,7 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  // This widget is the root of your application
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -75,8 +75,7 @@ Path _buildBoatPath() {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final water_level = 40;
-  String status = "";
+  final water_level = 202;
 
   @override
   Widget build(BuildContext context) {
@@ -144,9 +143,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 threshold();
               },
               child: Text('Check'),
-            ),
-            Container(
-              child: Text('Water Level is ' + status),
             ),
             //Tank widget and graph widgets go inside this "children" container(?)
 
@@ -263,7 +259,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void threshold() {
-    String message = "";
     int checker = 1;
 
     if (water_level < 50 && checker == 1) {
@@ -273,11 +268,8 @@ class _MyHomePageState extends State<MyHomePage> {
       pushNoteApi('Upper threshold', 'Your water tank is almost full');
       checker = 1;
     } else {
-      message = "Normal water level";
       checker = 1;
     }
-
-    setState(() => status = message);
   }
 }
 
