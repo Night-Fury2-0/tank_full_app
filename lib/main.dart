@@ -1,7 +1,12 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'NavBar.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
+
 import 'package:native_notify/native_notify.dart';
+
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 import 'settings_screen.dart';
 import 'help_screen.dart';
@@ -70,6 +75,9 @@ Path _buildBoatPath() {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final water_level = 40;
+  String status = "";
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -131,6 +139,15 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
+            ElevatedButton(
+              onPressed: () {
+                threshold();
+              },
+              child: Text('Check'),
+            ),
+            Container(
+              child: Text('Water Level is ' + status),
+            ),
             //Tank widget and graph widgets go inside this "children" container(?)
 
             //Tank code goes here********************************************************************************
@@ -244,6 +261,37 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+
+  void threshold() {
+    String message = "";
+    int checker = 1;
+
+    if (water_level < 50 && checker == 1) {
+      pushNoteApi('Low threshold', 'Your water tank is Low');
+      checker = 0;
+    } else if (water_level > 200) {
+      pushNoteApi('Upper threshold', 'Your water tank is almost full');
+      checker = 1;
+    } else {
+      message = "Normal water level";
+      checker = 1;
+    }
+
+    setState(() => status = message);
+  }
 }
 
-//test comment
+void pushNoteApi(String title, String message) {
+  final uri =
+      Uri.parse('https://app.nativenotify.com/api/flutter/notification');
+
+  http.post(uri,
+      headers: {HttpHeaders.contentTypeHeader: 'application/json'},
+      body: jsonEncode({
+        HttpHeaders.contentTypeHeader: 'application/json',
+        'flutterAppId': '2008',
+        'flutterAppToken': 'Z2e68owQIdIjAXVM5tbQu0',
+        'title': title,
+        'body': message,
+      }));
+}
