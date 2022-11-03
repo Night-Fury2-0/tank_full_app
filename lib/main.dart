@@ -1,6 +1,9 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'NavBar.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 import 'settings_screen.dart';
 import 'help_screen.dart';
@@ -67,7 +70,7 @@ Path _buildBoatPath() {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final water_level = 100;
+  final water_level = 40;
   String status = "";
 
   @override
@@ -259,10 +262,10 @@ class _MyHomePageState extends State<MyHomePage> {
     int checker = 1;
 
     if (water_level < 50 && checker == 1) {
-      message = "Bellow lower threshold";
+      pushNoteApi('Low threshold', 'Your water tank is Low');
       checker = 0;
     } else if (water_level > 200) {
-      message = "Above upper threshold";
+      pushNoteApi('Upper threshold', 'Your water tank is almost full');
       checker = 1;
     } else {
       message = "Normal water level";
@@ -273,4 +276,17 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-//test comment
+void pushNoteApi(String title, String message) {
+  final uri =
+      Uri.parse('https://app.nativenotify.com/api/flutter/notification');
+
+  http.post(uri,
+      headers: {HttpHeaders.contentTypeHeader: 'application/json'},
+      body: jsonEncode({
+        HttpHeaders.contentTypeHeader: 'application/json',
+        'flutterAppId': '2008',
+        'flutterAppToken': 'Z2e68owQIdIjAXVM5tbQu0',
+        'title': title,
+        'body': message,
+      }));
+}
