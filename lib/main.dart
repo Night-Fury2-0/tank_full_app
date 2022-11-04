@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'NavBar.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'dart:async';
+
 
 import 'settings_screen.dart';
 import 'help_screen.dart';
@@ -64,6 +67,27 @@ Path _buildBoatPath() {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+String textFromFile = 'Empty';
+
+getData() async{
+  String response;
+  response = await rootBundle.loadString('assets/DataFile.txt');
+  setState(() {
+    textFromFile = response;
+  });
+}
+
+clear(){
+  setState(() {
+    textFromFile = 'Empty';
+  } );
+
+}
+
+
+
+
   @override
   Widget build(BuildContext context) {
     var level = 0.65;
@@ -133,8 +157,22 @@ class _MyHomePageState extends State<MyHomePage> {
           // axis because Columns are vertical (the cross axis would be
           // horizontal).
 
+
           mainAxisAlignment: MainAxisAlignment.center,
+
+ 
+
           children: <Widget>[
+            ElevatedButton(
+              onPressed: () {
+                getData();
+              },             
+              child: Text('Check'),
+            ),
+            Container(
+              child: Text('Data is' + textFromFile),
+            ),
+
             LiquidCustomProgressIndicator(
                 value: level, // Defaults to 0.5.
                 valueColor:
