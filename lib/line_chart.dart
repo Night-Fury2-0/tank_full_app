@@ -29,7 +29,7 @@ class _GraphState extends State<Graph> {
     //Returns a widget. So when we use the Graph widget, it returns Containe, along with whatever is in there
     return Scaffold(
         body: SfCartesianChart(
-            primaryXAxis: CategoryAxis(interval: 0.5),
+            primaryXAxis: CategoryAxis(),
             primaryYAxis: CategoryAxis(
                 title: AxisTitle(text: "Liters")), //what does this do?
             title: ChartTitle(
@@ -47,4 +47,31 @@ class _GraphState extends State<Graph> {
               yValueMapper: (GraphData data, _) => data.liter),
         ]));
   }
+}
+
+class GraphFullView extends StatelessWidget {
+  const GraphFullView({this.minigraph});
+  final Widget? minigraph;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        title: const Text('Full View'),
+      ),
+      body: Container(
+        child: minigraph,
+      ),
+    );
+  }
+}
+
+void onTapExpand(BuildContext context, Widget graph) {
+  Navigator.push<dynamic>(
+      context,
+      MaterialPageRoute<dynamic>(
+          builder: (BuildContext context) => GraphFullView(
+                minigraph: graph,
+              )));
 }

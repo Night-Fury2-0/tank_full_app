@@ -197,14 +197,39 @@ class _MyHomePageState extends State<MyHomePage> {
                     graphTitle: 'In flow',
                   )),
             ),
-            const Card(
-              child: SizedBox(
-                  height: 200,
-                  width: 400,
-                  child: Graph(
-                    graphTitle: 'Out flow',
-                  )),
-            ),
+            Card(
+                child: Column(
+              children: [
+                InkWell(
+                  splashColor: Colors.grey.withOpacity(0.4),
+                  onTap: () {
+                    onTapExpand(context, Graph(graphTitle: 'Out flow'));
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          Container(
+                            height: 24,
+                            width: 24,
+                            color: Colors.transparent,
+                            child: const Padding(
+                              padding: EdgeInsets.fromLTRB(5, 0, 5, 5),
+                              child: Icon(Icons.open_in_full),
+                            ),
+                          ),
+                        ]),
+                  ),
+                ),
+                SizedBox(
+                    height: 200,
+                    width: 400,
+                    child: Graph(
+                      graphTitle: 'Out flow',
+                    )),
+              ],
+            )),
             //
             //
             //
