@@ -17,14 +17,18 @@ class AboutScreen extends StatelessWidget {
         appBar: AppBar(
           title: const Text('About Screen'),
         ),
+        //main body is a List view
         body: ListView(
           children: [
+            //First text block is stored here in a Padding widget
             const Padding(
                 padding: EdgeInsets.all(15.0),
                 child: Text(
                   "Tank-Full is a home automation app that monitors your water tank in real-time. Its functionalities include:",
                   style: TextStyle(fontSize: 18, height: 1.5),
                 )),
+
+            //Bullet points are formatted here
             Container(
               padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
               child: Column(
@@ -48,16 +52,20 @@ class AboutScreen extends StatelessWidget {
                 }).toList(),
               ),
             ),
+
+            //Another block of text stored in a padding
             const Padding(
                 padding: EdgeInsets.all(15.0),
                 child: Text(
                   "Tank-Full makes home automations easier. Monitoring your tank right on your phone!",
                   style: TextStyle(fontSize: 18, height: 1.5),
                 )),
+
+            //Version number text added here
             Container(
                 padding: const EdgeInsets.fromLTRB(15, 40, 15, 10),
                 child: Column(
-                  children: [
+                  children: const [
                     Text("Version 1.0.0",
                         style: TextStyle(fontStyle: FontStyle.italic))
                   ],
