@@ -33,8 +33,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-
-   
+  flutter_switch: ^0.3.2   
   firebase_messaging: ^11.2.6
   firebase_core_platform_interface: 4.5.1
   native_notify: ^0.0.16
