@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'NavBar.dart';
+import 'globals.dart' as globals;
 
 import 'help_screen.dart';
 
@@ -16,7 +17,19 @@ class SettingsScreen extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [],
+        children: [
+
+            ElevatedButton(
+              onPressed: () {
+                globals.NotificationState = false;
+              },
+
+              child: Text('Notification'),
+            ),
+            //
+
+
+        ],
       ),
     );
   }

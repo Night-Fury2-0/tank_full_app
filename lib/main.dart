@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'NavBar.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
-
+import 'globals.dart' as globals;
 import 'package:native_notify/native_notify.dart';
 
 import 'package:http/http.dart' as http;
@@ -262,11 +262,17 @@ class _MyHomePageState extends State<MyHomePage> {
     int checker = 1;
 
     if (water_level < 50 && checker == 1) {
-      pushNoteApi('Low threshold', 'Your water tank is Low');
-      checker = 0;
+      if(globals.NotificationState){
+        pushNoteApi('Low threshold', 'Your water tank is Low');
+        checker = 0;
+      }
+      
     } else if (water_level > 200) {
-      pushNoteApi('Upper threshold', 'Your water tank is almost full');
-      checker = 1;
+      if(globals.NotificationState){
+        pushNoteApi('Upper threshold', 'Your water tank is almost full');
+        checker = 1;
+      }
+
     } else {
       checker = 1;
     }
