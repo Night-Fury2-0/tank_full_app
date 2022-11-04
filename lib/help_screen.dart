@@ -6,6 +6,7 @@ import 'package:getwidget/getwidget.dart';
 class HelpScreen extends StatefulWidget {
   const HelpScreen({super.key});
 
+  //Contains the list of all images to be used in the help page
   static List<String> imageList = [
     'assets/images/test1.jpg',
     'assets/images/test2.jpg',
@@ -19,14 +20,16 @@ class HelpScreen extends StatefulWidget {
 class _HelpScreenState extends State<HelpScreen> {
   @override
   Widget build(BuildContext context) {
+    //Finds the height of the page to be used for the Carousel height
+    //Minus 25 just to avoid any pixel overflow errors
     final double height = (MediaQuery.of(context).size.height) - 25;
 
     return Scaffold(
-      //drawer: NavBar(),
       appBar: AppBar(
         title: const Text('Help'),
       ),
       body: Center(
+        //This is the main widget for the carousel
         child: GFCarousel(
           height: height,
           hasPagination: true,

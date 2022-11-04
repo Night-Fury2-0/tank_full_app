@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'graph_data.dart';
+import 'package:flutter/services.dart';
 
 //This is the statefull widget class
 //Extends means we're inheriting from the StateFulWifget class
@@ -29,8 +30,16 @@ class _GraphState extends State<Graph> {
     //Returns a widget. So when we use the Graph widget, it returns Containe, along with whatever is in there
     return Scaffold(
         body: SfCartesianChart(
+            backgroundColor: Colors.white,
+            tooltipBehavior: TooltipBehavior(enable: true, header: 'Liters'),
+            zoomPanBehavior: ZoomPanBehavior(
+              enableMouseWheelZooming: true,
+              enablePinching: true,
+              zoomMode: ZoomMode.x,
+              enablePanning: true,
+            ),
             primaryXAxis: CategoryAxis(),
-            primaryYAxis: CategoryAxis(
+            primaryYAxis: NumericAxis(
                 title: AxisTitle(text: "Liters")), //what does this do?
             title: ChartTitle(
                 text: widget
@@ -49,11 +58,25 @@ class _GraphState extends State<Graph> {
   }
 }
 
-class GraphFullView extends StatelessWidget {
+class GraphFullView extends StatefulWidget {
   const GraphFullView({this.minigraph});
   final Widget? minigraph;
 
   @override
+  State<GraphFullView> createState() => _GraphFullViewState();
+}
+
+class _GraphFullViewState extends State<GraphFullView> {
+  @override
+  void initState() {
+    //this forces the full view graph to landscape mode
+    super.initState();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+    ]);
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -61,9 +84,21 @@ class GraphFullView extends StatelessWidget {
         title: const Text('Full View'),
       ),
       body: Container(
-        child: minigraph,
+        child: widget.minigraph,
       ),
     );
+  }
+
+  @override
+  dispose() {
+    //THis returns the app to portrait mode after exiting full view graph
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    super.dispose();
   }
 }
 

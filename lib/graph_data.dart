@@ -12,7 +12,7 @@ List<GraphData> getdata() {
     //Gets current day
     var now = DateTime.now();
     //Formats the data to Month-Day
-    var formatter = DateFormat('MM-dd');
+    var formatter = DateFormat('dd-MM');
     //Gets past 30 days using 'i'
     var date = DateTime(now.year, now.month, now.day - i);
 
