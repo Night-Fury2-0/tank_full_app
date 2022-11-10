@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'NavBar.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
-import 'package:lottie/lottie.dart';
+
 
 import 'settings_screen.dart';
 import 'help_screen.dart';
@@ -18,6 +18,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Tank-Full',
+
+
+
+
+
+
+      
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -100,7 +107,24 @@ class _MyHomePageState extends State<MyHomePage>
     return Scaffold(
       drawer: NavBar(),
       appBar: AppBar(
-        title: Text(widget.title),
+                  title: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                  Image.asset(
+                 'assets/images/Logo_appbar_negative.png',
+                  fit: BoxFit.cover,
+                  //height: 32,
+                  //width: 32,
+              ),
+              Container(
+                 padding: const EdgeInsets.fromLTRB(1, 1, 0, 1), child: Text(widget.title))
+            ],
+
+          ),
+
+
+
+
         actions: <Widget>[
           Padding(
               padding: EdgeInsets.only(right: 20.0),
@@ -153,22 +177,10 @@ class _MyHomePageState extends State<MyHomePage>
             //Tank widget and graph widgets go inside this "children" container(?)
            
 
-            Lottie.network(
-              "https://assets1.lottiefiles.com/private_files/lf30_kqmwm4ae.json",
-              repeat: true,
-              controller: _controller,
-              onLoaded: (composition){
-                  _controller
-                  ..duration = composition.duration
-                  ..forward();
-
-
-                },
-              ),
-            
+         
             
             //Tank code goes here********************************************************************************
-           /*
+           
             LiquidCustomProgressIndicator(
               value: 0.3, // Defaults to 0.5.
               valueColor: AlwaysStoppedAnimation(
@@ -180,7 +192,7 @@ class _MyHomePageState extends State<MyHomePage>
               shapePath:
                   _buildBoatPath(), // A Path object used to draw the shape of the progress indicator. The size of the progress indicator is created from the bounds of this path.
             ),
-            */
+            
             //
             //
             //
