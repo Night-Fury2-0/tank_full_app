@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1021774876695",
+    "firebase_url": "https://tankfullapp-default-rtdb.firebaseio.com",
+    "project_id": "tankfullapp",
+    "storage_bucket": "tankfullapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1021774876695:android:f6c29d72abc57d6eebcc52",
+        "android_client_info": {
+          "package_name": "com.example.water_v3"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1021774876695-s85pfcdtt2c2vgjkcbj1u9ljadeuj1pr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8126M8IvwzVg7Pu6Snprd_4W0HKWWpkc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1021774876695-s85pfcdtt2c2vgjkcbj1u9ljadeuj1pr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

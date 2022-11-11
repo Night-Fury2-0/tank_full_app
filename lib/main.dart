@@ -1,7 +1,13 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'NavBar.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'line_chart.dart';
+import 'package:native_notify/native_notify.dart';
+
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
 import 'settings_screen.dart';
 import 'help_screen.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -10,13 +16,15 @@ import 'package:intl/intl.dart';
 import 'graph_data.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  NativeNotify.initialize(2008, 'Z2e68owQIdIjAXVM5tbQu0', null, null);
   runApp(MaterialApp(home: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  // This widget is the root of your application
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -86,6 +94,8 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {});
   }
 
+  final water_level = 202;
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -151,6 +161,12 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
+            ElevatedButton(
+              onPressed: () {
+                threshold();
+              },
+              child: Text('Check'),
+            ),
             //Tank widget and graph widgets go inside this "children" container(?)
 
             //Tank code goes here********************************************************************************
@@ -387,6 +403,33 @@ class _MyHomePageState extends State<MyHomePage> {
 
     //return dataTest;
   }
+
+  void threshold() {
+    int checker = 1;
+
+    if (water_level < 50 && checker == 1) {
+      pushNoteApi('Low threshold', 'Your water tank is Low');
+      checker = 0;
+    } else if (water_level > 200) {
+      pushNoteApi('Upper threshold', 'Your water tank is almost full');
+      checker = 1;
+    } else {
+      checker = 1;
+    }
+  }
 }
 
-//test comment
+void pushNoteApi(String title, String message) {
+  final uri =
+      Uri.parse('https://app.nativenotify.com/api/flutter/notification');
+
+  http.post(uri,
+      headers: {HttpHeaders.contentTypeHeader: 'application/json'},
+      body: jsonEncode({
+        HttpHeaders.contentTypeHeader: 'application/json',
+        'flutterAppId': '2008',
+        'flutterAppToken': 'Z2e68owQIdIjAXVM5tbQu0',
+        'title': title,
+        'body': message,
+      }));
+}
