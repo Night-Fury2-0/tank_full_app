@@ -3,3 +3,4 @@
 library my_prj.globals;
 
 bool NotificationState = true;
+bool ThemeMode = false;

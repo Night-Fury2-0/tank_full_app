@@ -15,7 +15,7 @@ class DownloadScreen extends StatelessWidget {
     return Scaffold(
         //drawer: NavBar(),
         appBar: AppBar(
-          title: const Text('Download Screen'),
+          title: const Text('Export'),
           actions: <Widget>[
             Padding(
                 padding: EdgeInsets.only(right: 20.0),
@@ -51,7 +51,7 @@ class DownloadScreen extends StatelessWidget {
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => PdfPreviewPage(test: test)));
           },
-          label: Text('Download Pdf'),
+          label: Text('Export Pdf'),
           icon: const Icon(Icons.download),
         ),
 

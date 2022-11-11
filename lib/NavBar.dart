@@ -33,7 +33,7 @@ class NavBar extends StatelessWidget {
               }),
           ListTile(
               leading: const Icon(Icons.download),
-              title: const Text('Download'),
+              title: const Text('Export'),
               onTap: () {
                 Navigator.push(
                   context,
@@ -70,13 +70,11 @@ class NavBar extends StatelessWidget {
                 );
               }),
           const Divider(),
-
           ListTile(
             title: const Text('Report Bug'),
             leading: const Icon(Icons.bug_report),
             onTap: () => reportBug(),
           ),
-
           const Divider(),
           ListTile(
               title: const Text('Exit'),
@@ -91,18 +89,12 @@ class NavBar extends StatelessWidget {
                       {exit(0)}
                   }),
           const Divider(),
-     
         ],
       ),
-
-      
-
     );
   }
 }
 
-
-void reportBug(){
+void reportBug() {
   Instabug.show();
-  
 }

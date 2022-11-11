@@ -30,7 +30,7 @@ class _GraphState extends State<Graph> {
     //Returns a widget. So when we use the Graph widget, it returns Containe, along with whatever is in there
     return Scaffold(
         body: SfCartesianChart(
-            backgroundColor: Colors.white,
+            //backgroundColor: Colors.white,
             tooltipBehavior: TooltipBehavior(enable: true, header: 'Liters'),
             zoomPanBehavior: ZoomPanBehavior(
               enableMouseWheelZooming: true,

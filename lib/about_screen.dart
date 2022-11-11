@@ -15,7 +15,7 @@ class AboutScreen extends StatelessWidget {
     return Scaffold(
         //drawer: NavBar(),
         appBar: AppBar(
-          title: const Text('About Screen'),
+          title: const Text('About'),
         ),
         //main body is a List view
         body: ListView(

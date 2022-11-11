@@ -25,9 +25,14 @@ void main() {
   runApp(MaterialApp(home: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   // This widget is the root of your application
   @override
   Widget build(BuildContext context) {
@@ -43,8 +48,9 @@ class MyApp extends StatelessWidget {
           // or simply save your changes to "hot reload" in a Flutter IDE).
           // Notice that the counter didn't reset back to zero; the application
           // is not restarted.
-          brightness: Brightness.light),
-      home: const MyHomePage(title: 'Tank-Full'),
+
+          brightness: themeMode()),
+      home: MyHomePage(title: 'Tank-Full'),
     );
   }
 }
@@ -106,7 +112,10 @@ class _MyHomePageState extends State<MyHomePage>
     inflowFromfile = await rootBundle.loadString('assets/InFlowData.txt');
     outflowFromfile = await rootBundle.loadString('assets/OutFlowData.txt');
     tankFromfile = await rootBundle.loadString('assets/TankLevelData.txt');
-    //setState(() {});
+
+    Future.delayed(const Duration(milliseconds: 1000), () {
+      setState(() {});
+    });
   }
 
   final water_level = 202;
@@ -278,7 +287,7 @@ class _MyHomePageState extends State<MyHomePage>
 
             //Graph code goes here**********************************************************************************************************************
             Card(
-                color: Colors.white,
+                color: themeColor(),
                 child: Column(
                   children: [
                     InkWell(
@@ -314,7 +323,7 @@ class _MyHomePageState extends State<MyHomePage>
                   ],
                 )),
             Card(
-                color: Colors.white,
+                color: themeColor(),
                 child: Column(
                   children: [
                     InkWell(
@@ -485,4 +494,20 @@ void pushNoteApi(String title, String message) {
         'title': title,
         'body': message,
       }));
+}
+
+Brightness themeMode() {
+  if (globals.ThemeMode) {
+    return Brightness.dark;
+  } else {
+    return Brightness.light;
+  }
+}
+
+Color themeColor() {
+  if (globals.ThemeMode) {
+    return Color.fromARGB(255, 48, 49, 48);
+  } else {
+    return Color.fromARGB(255, 250, 250, 249);
+  }
 }
