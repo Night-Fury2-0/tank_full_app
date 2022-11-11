@@ -59,10 +59,18 @@ class MyHomePage extends StatefulWidget {
 
 Path _buildBoatPath() {
   return Path()
-    ..lineTo(0, 200)
-    ..lineTo(200, 200)
-    ..lineTo(200, 0)
-    ..lineTo(0, 0)
+    ..lineTo(0, 185)
+    ..cubicTo(0, 185, 0, 200, 15, 200)
+    ..lineTo(135, 200)
+    ..cubicTo(135, 200, 150, 200, 150, 185)
+    ..lineTo(150, 60)
+    ..lineTo(105, 15)
+    ..lineTo(105, 7)
+    ..cubicTo(105, 7, 105, 3, 100, 3)
+    ..lineTo(50, 3)
+    ..cubicTo(50, 3, 46, 3, 45, 7)
+    ..lineTo(45, 15)
+    ..lineTo(0, 60)
     ..close();
 }
 
