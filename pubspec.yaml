@@ -53,13 +53,16 @@ dependencies:
   screenshot: ^1.2.3
   printing: ^5.9.3
   pdf: ^3.8.3
+  instabug_flutter: ^11.3.0
 
   liquid_progress_indicator: ^0.4.0
   wave_progress_widget: ^0.0.1
   flutter:
     sdk: flutter
 
-
+  
+  lottie: ^1.4.3 #Used to load lottie annimation of the tank progress icon on the home page
+  
   syncfusion_flutter_charts: ^20.3.50
 
   # The following adds the Cupertino Icons font to your application.
@@ -78,6 +81,9 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
 
+  #Package used for the app icon
+  flutter_launcher_icons: "^0.10.0"
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -95,6 +101,10 @@ flutter:
       - assets/InFlowData.txt
       - assets/OutFlowData.txt
       - assets/TankLevelData.txt
+      - 'assets/images/Logo_appbar.png'
+      - 'assets/images/Logo_appbar_negative.png'
+  #   - images/a_dot_burr.jpeg
+  #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -123,3 +133,9 @@ flutter:
   # see https://flutter.dev/custom-fonts/#from-packages
 
 
+
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/Logo.png"

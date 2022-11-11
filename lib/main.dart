@@ -7,6 +7,7 @@ import 'package:native_notify/native_notify.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:instabug_flutter/instabug_flutter.dart'; //For bug reporting
 
 import 'settings_screen.dart';
 import 'help_screen.dart';
@@ -77,7 +78,15 @@ Path _buildBoatPath() {
     ..close();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage>
+    with SingleTickerProviderStateMixin {
+  //Controller for the Lottie ( Used for tank animation )
+
+  @override
+  void initState() {
+    Instabug.start('144c393c30a9ca42526659d95264c2d6', [InvocationEvent.none]);
+  }
+
   String inflowFromfile =
       "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0";
   String outflowFromfile =
@@ -111,7 +120,20 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       drawer: NavBar(),
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Image.asset(
+              'assets/images/Logo_appbar_negative.png',
+              fit: BoxFit.cover,
+              //height: 32,
+              //width: 32,
+            ),
+            Container(
+                padding: const EdgeInsets.fromLTRB(1, 1, 0, 1),
+                child: Text(widget.title))
+          ],
+        ),
         actions: <Widget>[
           Padding(
               padding: EdgeInsets.only(right: 20.0),
@@ -170,6 +192,7 @@ class _MyHomePageState extends State<MyHomePage> {
             //Tank widget and graph widgets go inside this "children" container(?)
 
             //Tank code goes here********************************************************************************
+
             LiquidCustomProgressIndicator(
               value: 0.3, // Defaults to 0.5.
               valueColor: AlwaysStoppedAnimation(
@@ -181,6 +204,7 @@ class _MyHomePageState extends State<MyHomePage> {
               shapePath:
                   _buildBoatPath(), // A Path object used to draw the shape of the progress indicator. The size of the progress indicator is created from the bounds of this path.
             ),
+
             //
             //
             //

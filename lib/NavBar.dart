@@ -3,6 +3,8 @@ import 'download_screen.dart';
 import 'about_screen.dart';
 import 'settings_screen.dart';
 import 'help_screen.dart';
+import 'package:http/http.dart' as http;
+import 'package:instabug_flutter/instabug_flutter.dart';
 
 class NavBar extends StatelessWidget {
   @override
@@ -64,14 +66,32 @@ class NavBar extends StatelessWidget {
                 );
               }),
           const Divider(),
+
+          ListTile(
+            title: const Text('Report Bug'),
+            leading: const Icon(Icons.bug_report),
+            onTap: () => reportBug(),
+          ),
+
+          const Divider(),
           ListTile(
             title: const Text('Exit'),
             leading: const Icon(Icons.exit_to_app),
             onTap: () => null,
           ),
           const Divider(),
+     
         ],
       ),
+
+      
+
     );
   }
+}
+
+
+void reportBug(){
+  Instabug.show();
+  
 }
