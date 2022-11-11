@@ -17,6 +17,8 @@ import 'dart:async';
 import 'package:intl/intl.dart';
 import 'graph_data.dart';
 
+import 'package:push/push.dart';
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   NativeNotify.initialize(2008, 'Z2e68owQIdIjAXVM5tbQu0', null, null);
@@ -67,15 +69,18 @@ class MyHomePage extends StatefulWidget {
 
 Path _buildBoatPath() {
   return Path()
-    ..moveTo(15, 120)
-    ..lineTo(0, 85)
-    ..lineTo(50, 85)
-    ..lineTo(50, 0)
-    ..lineTo(105, 80)
-    ..lineTo(60, 80)
-    ..lineTo(60, 85)
-    ..lineTo(120, 85)
-    ..lineTo(105, 120)
+    ..lineTo(0, 185)
+    ..cubicTo(0, 185, 0, 200, 15, 200)
+    ..lineTo(135, 200)
+    ..cubicTo(135, 200, 150, 200, 150, 185)
+    ..lineTo(150, 60)
+    ..lineTo(105, 15)
+    ..lineTo(105, 7)
+    ..cubicTo(105, 7, 105, 3, 100, 3)
+    ..lineTo(50, 3)
+    ..cubicTo(50, 3, 46, 3, 45, 7)
+    ..lineTo(45, 15)
+    ..lineTo(0, 60)
     ..close();
 }
 
@@ -101,13 +106,22 @@ class _MyHomePageState extends State<MyHomePage>
     inflowFromfile = await rootBundle.loadString('assets/InFlowData.txt');
     outflowFromfile = await rootBundle.loadString('assets/OutFlowData.txt');
     tankFromfile = await rootBundle.loadString('assets/TankLevelData.txt');
-    setState(() {});
+    //setState(() {});
   }
 
   final water_level = 202;
 
   @override
   Widget build(BuildContext context) {
+    var level = 0.65;
+
+    final percentage = level * 100;
+    var color;
+    if (level <= 0.25) {
+      color = AlwaysStoppedAnimation(Colors.red);
+    } else {
+      color = AlwaysStoppedAnimation(Colors.blue);
+    }
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -167,7 +181,8 @@ class _MyHomePageState extends State<MyHomePage>
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
-        child: Column(
+        child: SingleChildScrollView(
+            child: Column(
           // Column is also a layout widget. It takes a list of children and
           // arranges them vertically. By default, it sizes itself to fit its
           // children horizontally, and tries to be as tall as its parent.
@@ -182,6 +197,7 @@ class _MyHomePageState extends State<MyHomePage>
           // center the children vertically; the main axis here is the vertical
           // axis because Columns are vertical (the cross axis would be
           // horizontal).
+
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             ElevatedButton(
@@ -195,17 +211,25 @@ class _MyHomePageState extends State<MyHomePage>
             //Tank code goes here********************************************************************************
 
             LiquidCustomProgressIndicator(
-              value: 0.3, // Defaults to 0.5.
-              valueColor: AlwaysStoppedAnimation(
-                  Colors.blue), // Defaults to the current Theme's accentColor.
-              backgroundColor: Colors
-                  .white, // Defaults to the current Theme's backgroundColor.
+              value: level, // Defaults to 0.5.
+              valueColor: color, // Defaults to the current Theme's accentColor.
+              backgroundColor: Color.fromARGB(255, 130, 123,
+                  123), // Defaults to the current Theme's backgroundColor.
               direction: Axis
                   .vertical, // The direction the liquid moves (Axis.vertical = bottom to top, Axis.horizontal = left to right).
               shapePath:
                   _buildBoatPath(), // A Path object used to draw the shape of the progress indicator. The size of the progress indicator is created from the bounds of this path.
-            ),
+              //var percentage,
 
+              center: Text(
+                "${percentage.toStringAsFixed(0)}%",
+                style: TextStyle(
+                  color: Color.fromARGB(255, 48, 40, 40),
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
             //
             //
             //
@@ -369,9 +393,9 @@ class _MyHomePageState extends State<MyHomePage>
             //
             //
             //
-            //*
+            //*)
           ],
-        ),
+        )),
       ),
     );
   }
@@ -421,10 +445,10 @@ class _MyHomePageState extends State<MyHomePage>
       outf.add(GraphData(mapEntry.key, mapEntry.value));
     }
 
-    setState(() {
-      inFlow = inf;
-      outFlow = outf;
-    });
+    //setState(() {
+    inFlow = inf;
+    outFlow = outf;
+    //});
 
     //return dataTest;
   }
