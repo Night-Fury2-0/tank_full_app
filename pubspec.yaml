@@ -38,6 +38,7 @@ dependencies:
   screenshot: ^1.2.3
   printing: ^5.9.3
   pdf: ^3.8.3
+  instabug_flutter: ^11.3.0
 
   liquid_progress_indicator: ^0.4.0
   wave_progress_widget: ^0.0.1

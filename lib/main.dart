@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'NavBar.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
-
+import 'package:instabug_flutter/instabug_flutter.dart'; //For bug reporting
 
 import 'settings_screen.dart';
 import 'help_screen.dart';
@@ -78,23 +78,17 @@ class _MyHomePageState extends State<MyHomePage>
   with SingleTickerProviderStateMixin {
   
   //Controller for the Lottie ( Used for tank animation )
-  late final AnimationController _controller;
+
   
   @override
   void initState() {
-    super.initState();
+    
 
-    _controller = AnimationController(
-      duration: Duration(seconds: 3),
-      vsync: this,
-    );
+    Instabug.start('144c393c30a9ca42526659d95264c2d6', [InvocationEvent.none]);
+  
   }
   
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -240,6 +234,12 @@ class _MyHomePageState extends State<MyHomePage>
             //*******************************************************************************************************************************************
 
             //Graph code goes here**********************************************************************************************************************
+            
+       
+            
+            
+      
+           
             Text("Graph 1 goes here"),
             Text("Graph 2 goes here"),
             //
@@ -293,5 +293,7 @@ class _MyHomePageState extends State<MyHomePage>
     );
   }
 }
+
+
 
 //test comment
