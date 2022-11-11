@@ -11,7 +11,8 @@ import 'package:flutter/services.dart';
 class Graph extends StatefulWidget {
   //Graph({super.key});
   final String graphTitle;
-  const Graph({super.key, required this.graphTitle});
+  List<GraphData> data;
+  Graph({super.key, required this.graphTitle, required this.data});
 
   @override
   State<Graph> createState() =>
@@ -22,7 +23,6 @@ class Graph extends StatefulWidget {
 //In here we define data, and it can change state over time.
 //Whenever the data changes, it rebuilds the widget tree (Container and whatever is in it)
 class _GraphState extends State<Graph> {
-  List<GraphData> data = getdata();
   @override
 
   //Build function
@@ -46,7 +46,7 @@ class _GraphState extends State<Graph> {
                     .graphTitle), //widget.graphTitle is a way to get the variable parameter accepted in Graph
             series: <ChartSeries<GraphData, String>>[
           AreaSeries(
-              dataSource: data,
+              dataSource: widget.data,
               gradient: LinearGradient(colors: [
                 Color.fromARGB(255, 33, 184, 243),
                 Color.fromARGB(255, 3, 115, 244)

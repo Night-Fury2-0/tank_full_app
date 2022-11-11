@@ -4,6 +4,10 @@ import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'line_chart.dart';
 import 'settings_screen.dart';
 import 'help_screen.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'dart:async';
+import 'package:intl/intl.dart';
+import 'graph_data.dart';
 
 void main() {
   runApp(MaterialApp(home: MyApp()));
@@ -66,6 +70,22 @@ Path _buildBoatPath() {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  String inflowFromfile =
+      "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0";
+  String outflowFromfile =
+      "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0";
+  String tankFromfile =
+      "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0";
+  List<GraphData> inFlow = <GraphData>[];
+  List<GraphData> outFlow = <GraphData>[];
+
+  getData() async {
+    inflowFromfile = await rootBundle.loadString('assets/InFlowData.txt');
+    outflowFromfile = await rootBundle.loadString('assets/OutFlowData.txt');
+    tankFromfile = await rootBundle.loadString('assets/TankLevelData.txt');
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -74,6 +94,10 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
+
+    getData();
+    getList();
+
     return Scaffold(
       drawer: NavBar(),
       appBar: AppBar(
@@ -195,7 +219,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     InkWell(
                       splashColor: Colors.grey.withOpacity(0.4),
                       onTap: () {
-                        onTapExpand(context, Graph(graphTitle: 'In-flow'));
+                        onTapExpand(context,
+                            Graph(graphTitle: 'In-flow', data: inFlow));
                       },
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(10, 5, 10, 0),
@@ -214,11 +239,12 @@ class _MyHomePageState extends State<MyHomePage> {
                             ]),
                       ),
                     ),
-                    const SizedBox(
+                    SizedBox(
                         height: 180,
                         width: 400,
                         child: Graph(
                           graphTitle: 'In-flow',
+                          data: inFlow,
                         )),
                   ],
                 )),
@@ -229,7 +255,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     InkWell(
                       splashColor: Colors.grey.withOpacity(0.4),
                       onTap: () {
-                        onTapExpand(context, Graph(graphTitle: 'Out-flow'));
+                        onTapExpand(context,
+                            Graph(graphTitle: 'Out-flow', data: outFlow));
                       },
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(10, 5, 10, 0),
@@ -248,11 +275,12 @@ class _MyHomePageState extends State<MyHomePage> {
                             ]),
                       ),
                     ),
-                    const SizedBox(
+                    SizedBox(
                         height: 180,
                         width: 400,
                         child: Graph(
                           graphTitle: 'Out flow',
+                          data: outFlow,
                         )),
                   ],
                 )),
@@ -305,6 +333,59 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     );
+  }
+
+  void getList() {
+    Map<String, double> graphLable1 = {};
+    Map<String, double> graphLable2 = {};
+
+    List<double> Indata = [];
+    List<double> Outdata = [];
+    List<double> Tankdata = [];
+    List<String> splittedIn = inflowFromfile.split(" ");
+    List<String> splittedOut = outflowFromfile.split(" ");
+    List<String> splittedTank = tankFromfile.split(" ");
+    List<GraphData> inf = <GraphData>[];
+    List<GraphData> outf = <GraphData>[];
+
+    for (int i = 0; i < 30; i++) {
+      Indata.add(double.parse(splittedIn[i]));
+      Outdata.add(double.parse(splittedOut[i]));
+      //Tankdata.add(double.parse(splittedTank[i]));
+    }
+
+    //Populates the map with dates of past 30 days from today, and random values as "liters"
+    for (int i = 29; i >= 0; i--) {
+      //Gets current day
+      var now = DateTime.now();
+      //Formats the data to Month-Day
+      var formatter = DateFormat('dd-MM');
+      //Gets past 30 days using 'i'
+      var date = DateTime(now.year, now.month, now.day - i);
+
+      //Creates string of the date and formats it
+      String formattedDate = formatter.format(date);
+      //Adding pairs to the map (using a random generator for liter values)
+      graphLable1[formattedDate] = Indata[i];
+      graphLable2[formattedDate] = Outdata[i];
+    }
+
+    //Populate list with the dates and values from the map
+    for (final mapEntry in graphLable1.entries) {
+      inf.add(GraphData(mapEntry.key, mapEntry.value));
+    }
+
+    //Populate list with the dates and values from the map
+    for (final mapEntry in graphLable2.entries) {
+      outf.add(GraphData(mapEntry.key, mapEntry.value));
+    }
+
+    setState(() {
+      inFlow = inf;
+      outFlow = outf;
+    });
+
+    //return dataTest;
   }
 }
 
