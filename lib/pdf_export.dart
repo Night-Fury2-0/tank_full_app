@@ -5,7 +5,7 @@ import 'package:pdf/widgets.dart';
 
 import 'pdf_data.dart';
 
-final Output test = Output('September-October');
+final Output Display = Output('September-October','5','8','9');
 
 //Function to actually create the pdf.
 Future<Uint8List> makePdf(Output data) async {
@@ -19,7 +19,12 @@ Future<Uint8List> makePdf(Output data) async {
           children: [
             Padding(
               padding: EdgeInsets.all(15.0),
-              child: Text(test.period),
+              child:Column(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start,
+          children: [Text(Display.period,style: TextStyle(fontSize: 14)),
+          Text(Display.lowAlerts,style: TextStyle(fontSize: 14)),
+          Text(Display.highAlerts, style: TextStyle(fontSize: 14)), 
+          Text(Display.noWaterDays, style: TextStyle(fontSize: 14))]
+          ) ,
             )
           ],
         );

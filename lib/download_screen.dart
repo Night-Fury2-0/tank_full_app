@@ -12,13 +12,14 @@ import 'help_screen.dart';
 
 class DownloadScreen extends StatelessWidget {
   
-  final Output test = Output('September-October');
+  final Output Display = Output('September-October','5','8','9');
+
   DownloadScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-  final Filepath =
-  path() ;
+
+  
   
 
     return Scaffold(
@@ -58,7 +59,7 @@ class DownloadScreen extends StatelessWidget {
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
             Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => PdfPreviewPage(test: test)));
+                builder: (context) => PdfPreviewPage(test: Display)));
           },
           label: Text('Export Pdf'),
           icon: const Icon(Icons.download),
@@ -67,7 +68,13 @@ class DownloadScreen extends StatelessWidget {
         //Everything insinde body is what shows on the download page.
         //Must be generally the same as the pdf_export layout.
         body: ListView(
-          children: [Padding(padding: EdgeInsets.all(15.0), child: Text(test.period)),
+          children: [Padding(padding: EdgeInsets.all(15.0), child:Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly,crossAxisAlignment: CrossAxisAlignment.start,
+          children: [Padding(padding: EdgeInsets.all(5.0), child:Text(Display.period, style: TextStyle(fontSize: 16))),
+          Padding(padding: EdgeInsets.all(5.0), child:Text(Display.lowAlerts, style: TextStyle(fontSize: 16))),
+          Padding(padding: EdgeInsets.all(5.0), child:Text(Display.highAlerts, style: TextStyle(fontSize: 16))), 
+          Padding(padding: EdgeInsets.all(5.0), child:Text(Display.noWaterDays, style: TextStyle(fontSize: 16)))]
+          ) 
+          ),
           //Display In Flow Screenshot
           Card(child:Image.memory(globals.imageInFlow) ,),
           //Display Out Flow Screenshot
@@ -77,13 +84,7 @@ class DownloadScreen extends StatelessWidget {
         ));
   }
 
-path() async {
 
-var tempDir = await getExternalStorageDirectory();
-var filepath1 = "${tempDir!.path}/test1.png";
-
-  return filepath1;
-}
 
 
 
