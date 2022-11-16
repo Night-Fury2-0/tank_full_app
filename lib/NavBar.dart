@@ -7,10 +7,18 @@ import 'download_screen.dart';
 import 'about_screen.dart';
 import 'settings_screen.dart';
 import 'help_screen.dart';
-import 'package:http/http.dart' as http;
 import 'package:instabug_flutter/instabug_flutter.dart';
+import 'package:screenshot/screenshot.dart';
+import 'globals.dart' as globals;
+import 'line_chart.dart';
+
+
 
 class NavBar extends StatelessWidget {
+
+  //Create an instance of ScreenshotController
+  ScreenshotController screenshotController = ScreenshotController();
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -18,12 +26,14 @@ class NavBar extends StatelessWidget {
         // Remove padding
         padding: EdgeInsets.zero,
         children: [
+
+          //This tile points to null so that we could use it 
+          //as an empty bar at the top of the navigation bar
           ListTile(
-            //leading: Icon(Icons.favorite),
-            //title: Text(''),
             tileColor: Colors.blue,
             onTap: () => null,
           ),
+
           ListTile(
               leading: const Icon(Icons.home),
               title: const Text('Home'),
@@ -31,15 +41,42 @@ class NavBar extends StatelessWidget {
                 Navigator.of(context).pushNamedAndRemoveUntil(
                     '/', (Route<dynamic> route) => false);
               }),
+
           ListTile(
               leading: const Icon(Icons.download),
               title: const Text('Export'),
-              onTap: () {
-                Navigator.push(
+              onTap: () async{
+                              
+globals.imageInFlow = await screenshotController.captureFromWidget(  SizedBox(height: 180,
+width: 400,           
+                child: MaterialApp(home:Graph(
+                          graphTitle: 'In-flow',
+                          data: globals.inFlow,
+                        ),                   
+                       )
+               )
+                );
+
+
+globals.imageOutFlow = await screenshotController.captureFromWidget(  SizedBox(height: 180,
+width: 400,           
+                child: MaterialApp(home:Graph(
+                          graphTitle: 'Out-flow',
+                          data: globals.outFlow,
+                        ),
+                                                
+                       )
+               )
+               
+                );
+
+
+              Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => DownloadScreen()),
                 );
               }),
+              
           ListTile(
               leading: const Icon(Icons.info),
               title: const Text('About'),
@@ -95,6 +132,7 @@ class NavBar extends StatelessWidget {
   }
 }
 
+//Funtion to call Instabug which is the package used for the bug reporting feature
 void reportBug() {
   Instabug.show();
 }

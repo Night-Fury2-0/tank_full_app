@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'NavBar.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'line_chart.dart';
@@ -12,12 +13,13 @@ import 'package:instabug_flutter/instabug_flutter.dart'; //For bug reporting
 
 import 'settings_screen.dart';
 import 'help_screen.dart';
-import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter/services.dart' show SystemChrome, rootBundle;
 import 'dart:async';
 import 'package:intl/intl.dart';
 import 'graph_data.dart';
-
+import 'package:screenshot/screenshot.dart';
 import 'package:push/push.dart';
+import 'dart:typed_data';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -92,8 +94,11 @@ Path _buildBoatPath() {
 
 class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
-  //Controller for the Lottie ( Used for tank animation )
 
+  //Create an instance of ScreenshotController
+  ScreenshotController screenshotController = ScreenshotController();
+
+  //Initilizes the instabug package
   @override
   void initState() {
     Instabug.start('144c393c30a9ca42526659d95264c2d6', [InvocationEvent.none]);
@@ -107,7 +112,7 @@ class _MyHomePageState extends State<MyHomePage>
       "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0";
   List<GraphData> inFlow = <GraphData>[];
   List<GraphData> outFlow = <GraphData>[];
-
+  
   getData() async {
     inflowFromfile = await rootBundle.loadString('assets/InFlowData.txt');
     outflowFromfile = await rootBundle.loadString('assets/OutFlowData.txt');
@@ -142,7 +147,15 @@ class _MyHomePageState extends State<MyHomePage>
     getList();
 
     return Scaffold(
+
       drawer: NavBar(),
+
+      onDrawerChanged: (isOpened) async{
+
+
+
+      } ,
+
       appBar: AppBar(
         title: Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -150,8 +163,8 @@ class _MyHomePageState extends State<MyHomePage>
             Image.asset(
               'assets/images/Logo_appbar_negative.png',
               fit: BoxFit.cover,
-              //height: 32,
-              //width: 32,
+              height: 32,
+              width: 32,
             ),
             Container(
                 padding: const EdgeInsets.fromLTRB(1, 1, 0, 1),
@@ -210,8 +223,23 @@ class _MyHomePageState extends State<MyHomePage>
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             ElevatedButton(
-              onPressed: () {
-                threshold();
+              onPressed: ()  async{
+                //threshold();
+                
+/*
+                
+               globals.image = await screenshotController.captureFromWidget(  AspectRatio(aspectRatio: 2,           
+                child: MaterialApp(home:
+                       Graph(
+                          graphTitle: 'In-flow',
+                          data: globals.inFlow,
+                        )
+                       )
+               )
+               
+                );
+
+*/
               },
               child: Text('Check'),
             ),
@@ -286,7 +314,7 @@ class _MyHomePageState extends State<MyHomePage>
             //*******************************************************************************************************************************************
 
             //Graph code goes here**********************************************************************************************************************
-            Card(
+          Card(
                 color: themeColor(),
                 child: Column(
                   children: [
@@ -294,7 +322,7 @@ class _MyHomePageState extends State<MyHomePage>
                       splashColor: Colors.grey.withOpacity(0.4),
                       onTap: () {
                         onTapExpand(context,
-                            Graph(graphTitle: 'In-flow', data: inFlow));
+                            Graph(graphTitle: 'In-flow', data: globals.inFlow));
                       },
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(10, 5, 10, 0),
@@ -318,10 +346,11 @@ class _MyHomePageState extends State<MyHomePage>
                         width: 400,
                         child: Graph(
                           graphTitle: 'In-flow',
-                          data: inFlow,
+                          data: globals.inFlow,
                         )),
                   ],
                 )),
+
             Card(
                 color: themeColor(),
                 child: Column(
@@ -330,7 +359,7 @@ class _MyHomePageState extends State<MyHomePage>
                       splashColor: Colors.grey.withOpacity(0.4),
                       onTap: () {
                         onTapExpand(context,
-                            Graph(graphTitle: 'Out-flow', data: outFlow));
+                            Graph(graphTitle: 'Out-flow', data: globals.outFlow));
                       },
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(10, 5, 10, 0),
@@ -354,10 +383,11 @@ class _MyHomePageState extends State<MyHomePage>
                         width: 400,
                         child: Graph(
                           graphTitle: 'Out flow',
-                          data: outFlow,
+                          data: globals.outFlow,
                         )),
                   ],
                 )),
+            
             //
             //
             //
@@ -407,6 +437,11 @@ class _MyHomePageState extends State<MyHomePage>
         )),
       ),
     );
+
+
+
+
+    
   }
 
   void getList() {
@@ -455,8 +490,8 @@ class _MyHomePageState extends State<MyHomePage>
     }
 
     //setState(() {
-    inFlow = inf;
-    outFlow = outf;
+    globals.inFlow = inf;
+    globals.outFlow = outf;
     //});
 
     //return dataTest;
@@ -479,6 +514,13 @@ class _MyHomePageState extends State<MyHomePage>
       checker = 1;
     }
   }
+Widget buildimage() => SizedBox(
+width: 100,
+height: 200,
+child: Graph(graphTitle: 'In-flow', data: inFlow),
+
+);
+
 }
 
 void pushNoteApi(String title, String message) {
@@ -511,3 +553,4 @@ Color themeColor() {
     return Color.fromARGB(255, 250, 250, 249);
   }
 }
+
