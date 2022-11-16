@@ -48,6 +48,9 @@ dependencies:
   flutter_multi_carousel: ^1.0.3
   getwidget: ^3.0.1
   path: ^1.8.0
+  rxdart: ^0.27.6
+  async: ^2.9.0
+  #stream_transform: ^2.1.0
 
   screenshot: ^1.2.3
   printing: ^5.9.3

@@ -12,10 +12,7 @@ import 'package:screenshot/screenshot.dart';
 import 'globals.dart' as globals;
 import 'line_chart.dart';
 
-
-
 class NavBar extends StatelessWidget {
-
   //Create an instance of ScreenshotController
   ScreenshotController screenshotController = ScreenshotController();
 
@@ -26,8 +23,7 @@ class NavBar extends StatelessWidget {
         // Remove padding
         padding: EdgeInsets.zero,
         children: [
-
-          //This tile points to null so that we could use it 
+          //This tile points to null so that we could use it
           //as an empty bar at the top of the navigation bar
           ListTile(
             tileColor: Colors.blue,
@@ -45,38 +41,20 @@ class NavBar extends StatelessWidget {
           ListTile(
               leading: const Icon(Icons.download),
               title: const Text('Export'),
-              onTap: () async{
-                              
-globals.imageInFlow = await screenshotController.captureFromWidget(  SizedBox(height: 180,
-width: 400,           
-                child: MaterialApp(home:Graph(
-                          graphTitle: 'In-flow',
-                          data: globals.inFlow,
-                        ),                   
-                       )
-               )
-                );
+              onTap: () async {
+                getInGraph();
+                getOutGraph();
 
-
-globals.imageOutFlow = await screenshotController.captureFromWidget(  SizedBox(height: 180,
-width: 400,           
-                child: MaterialApp(home:Graph(
-                          graphTitle: 'Out-flow',
-                          data: globals.outFlow,
-                        ),
-                                                
-                       )
-               )
-               
-                );
-
-
-              Navigator.push(
+                Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => DownloadScreen()),
+                  MaterialPageRoute(
+                      builder: (context) => DownloadScreen(
+                            waiting1: getInGraph(),
+                            waiting2: getOutGraph(),
+                          )),
                 );
               }),
-              
+
           ListTile(
               leading: const Icon(Icons.info),
               title: const Text('About'),
@@ -129,6 +107,33 @@ width: 400,
         ],
       ),
     );
+  }
+
+  Future<bool> getInGraph() async {
+    globals.imageInFlow = await screenshotController.captureFromWidget(SizedBox(
+        height: 180,
+        width: 400,
+        child: MaterialApp(
+          home: Graph(
+            graphTitle: 'In-flow',
+            data: globals.inFlow,
+          ),
+        )));
+    return true;
+  }
+
+  Future<bool> getOutGraph() async {
+    globals.imageOutFlow =
+        await screenshotController.captureFromWidget(SizedBox(
+            height: 180,
+            width: 400,
+            child: MaterialApp(
+              home: Graph(
+                graphTitle: 'Out-flow',
+                data: globals.outFlow,
+              ),
+            )));
+    return true;
   }
 }
 
