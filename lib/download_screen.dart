@@ -12,9 +12,10 @@ import 'help_screen.dart';
 
 class DownloadScreen extends StatelessWidget {
   
+  Future<bool> waiting1;
+  Future<bool> waiting2;
   final Output Display = Output('September-October','5','8','9');
-
-  DownloadScreen({super.key});
+  DownloadScreen({super.key, required this.waiting1, required this.waiting2});
 
   @override
   Widget build(BuildContext context) {
@@ -67,20 +68,34 @@ class DownloadScreen extends StatelessWidget {
 
         //Everything insinde body is what shows on the download page.
         //Must be generally the same as the pdf_export layout.
-        body: ListView(
-          children: [Padding(padding: EdgeInsets.all(15.0), child:Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly,crossAxisAlignment: CrossAxisAlignment.start,
+        body: FutureBuilder(
+          future: Future.wait([waiting1, waiting2]),
+          builder: ((context, snapshot) {
+            if (snapshot.hasData) {
+              return ListView(
+                children: [
+                  Padding(
+                      padding: EdgeInsets.all(15.0), child:Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly,crossAxisAlignment: CrossAxisAlignment.start,
           children: [Padding(padding: EdgeInsets.all(5.0), child:Text(Display.period, style: TextStyle(fontSize: 16))),
           Padding(padding: EdgeInsets.all(5.0), child:Text(Display.lowAlerts, style: TextStyle(fontSize: 16))),
           Padding(padding: EdgeInsets.all(5.0), child:Text(Display.highAlerts, style: TextStyle(fontSize: 16))), 
           Padding(padding: EdgeInsets.all(5.0), child:Text(Display.noWaterDays, style: TextStyle(fontSize: 16)))]
           ) 
           ),
-          //Display In Flow Screenshot
-          Card(child:Image.memory(globals.imageInFlow) ,),
-          //Display Out Flow Screenshot
-          Card(child:Image.memory(globals.imageOutFlow))
-          
-          ],
+                  //Display In Flow Screenshot
+                  Card(
+                    child: Image.memory(globals.imageInFlow),
+                  ),
+                  //Display Out Flow Screenshot
+                  Card(child: Image.memory(globals.imageOutFlow))
+                ],
+              );
+            } else {
+              return Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [CircularProgressIndicator()]);
+            }
+          }),
         ));
   }
 
@@ -90,4 +105,3 @@ class DownloadScreen extends StatelessWidget {
 
 
 }
-
