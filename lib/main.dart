@@ -105,13 +105,15 @@ class _MyHomePageState extends State<MyHomePage>
   String outflowFromfile =
       "362 422 476 522 559 585 598 598 585 559 522 476 422 362 299 237 177 123 77 40 14 1 1 14 40 77 123 177 237 300";
   String tankFromfile =
-      "541 741 525 1063 742 802 762 1117 824 1130 597 605 648 503 387 140 238 363 65 273 361 218 343 203 342 402 228 320 119 767";
+      "541 741 525 1063 742 802 762 1426 824 1130 597 605 648 503 387 140 238 363 65 273 361 218 343 203 342 402 228 320 119 767";
   //List<GraphData> inFlow = <GraphData>[];
   //List<GraphData> outFlow = <GraphData>[];
   List<double> Indata = [];
   List<double> Outdata = [];
 
-  var water_level = 0.0;
+  //var water_level = 0.0;
+  bool checkerL = true;
+  bool checkerU = true;
 
   getData() async {
     inflowFromfile = await rootBundle.loadString('assets/InFlowData.txt');
@@ -130,7 +132,7 @@ class _MyHomePageState extends State<MyHomePage>
       //Creates string of the date and formats it
       String formattedDate = formatter.format(date);
 
-      await Future<void>.delayed(const Duration(seconds: 5));
+      await Future<void>.delayed(const Duration(seconds: 1));
       globals.inFlow.removeAt(0);
       print('In: ${globals.inFlow[i].liter}');
       yield GraphData(formattedDate, Indata[i]);
@@ -148,7 +150,7 @@ class _MyHomePageState extends State<MyHomePage>
       //Creates string of the date and formats it
       String formattedDate = formatter.format(date);
 
-      await Future<void>.delayed(const Duration(seconds: 5));
+      await Future<void>.delayed(const Duration(seconds: 1));
       globals.outFlow.removeAt(0);
       print("Tank: ${globals.outFlow[i].liter}");
       yield GraphData(formattedDate, Outdata[i]);
@@ -157,8 +159,9 @@ class _MyHomePageState extends State<MyHomePage>
 
   Stream<dynamic> gettankData() async* {
     for (int i = 0; i < 30; i++) {
-      await Future<void>.delayed(const Duration(seconds: 5));
+      await Future<void>.delayed(const Duration(seconds: 1));
       print("Out: ${globals.Tankdata[i]}");
+      threshold(globals.Tankdata[i]);
       yield (globals.Tankdata[i] / 1500);
     }
   }
@@ -498,22 +501,33 @@ class _MyHomePageState extends State<MyHomePage>
     //return dataTest;
   }
 
-  void threshold() {
-    int checker = 1;
+  void threshold(double water_level) {
+    if (water_level == 0) {
+      globals.noWaterCount++;
+    }
 
-    if (water_level < 50 && checker == 1) {
+    water_level = (water_level / 1500) * 100;
+
+    if (water_level <= 20 && checkerL == true) {
+      globals.lowerCount++;
       if (globals.NotificationState) {
         pushNoteApi('Low threshold', 'Your water tank is Low');
-        checker = 0;
       }
-    } else if (water_level > 200) {
+      checkerL = false;
+      checkerU = true;
+    } else if (water_level >= 95 && checkerU == true) {
+      globals.upperCount++;
       if (globals.NotificationState) {
         pushNoteApi('Upper threshold', 'Your water tank is almost full');
-        checker = 1;
       }
-    } else {
-      checker = 1;
+      checkerU = false;
+      checkerL = true;
+    } else if (water_level > 20 && water_level < 95) {
+      checkerU = true;
+      checkerL = true;
     }
+    print(
+        "Lower count: ${globals.lowerCount}, Upper count: ${globals.upperCount}, No water count: ${globals.noWaterCount}");
   }
 
   Widget buildimage() => SizedBox(

@@ -16,3 +16,4 @@ List<double> Tankdata = [];
 
 int upperCount = 0;
 int lowerCount = 0;
+int noWaterCount = 0;
