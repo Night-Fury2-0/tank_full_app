@@ -11,18 +11,14 @@ import 'settings_screen.dart';
 import 'help_screen.dart';
 
 class DownloadScreen extends StatelessWidget {
-  
   Future<bool> waiting1;
   Future<bool> waiting2;
-  final Output Display = Output('September-October','5','8','9');
+  final Output Display = Output(globals.lowerCount.toString(),
+      globals.upperCount.toString(), globals.noWaterCount.toString());
   DownloadScreen({super.key, required this.waiting1, required this.waiting2});
 
   @override
   Widget build(BuildContext context) {
-
-  
-  
-
     return Scaffold(
         //drawer: NavBar(),
         appBar: AppBar(
@@ -75,13 +71,28 @@ class DownloadScreen extends StatelessWidget {
               return ListView(
                 children: [
                   Padding(
-                      padding: EdgeInsets.all(15.0), child:Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly,crossAxisAlignment: CrossAxisAlignment.start,
-          children: [Padding(padding: EdgeInsets.all(5.0), child:Text(Display.period, style: TextStyle(fontSize: 16))),
-          Padding(padding: EdgeInsets.all(5.0), child:Text(Display.lowAlerts, style: TextStyle(fontSize: 16))),
-          Padding(padding: EdgeInsets.all(5.0), child:Text(Display.highAlerts, style: TextStyle(fontSize: 16))), 
-          Padding(padding: EdgeInsets.all(5.0), child:Text(Display.noWaterDays, style: TextStyle(fontSize: 16)))]
-          ) 
-          ),
+                      padding: EdgeInsets.all(15.0),
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                                padding: EdgeInsets.all(5.0),
+                                child: Text(Display.period,
+                                    style: TextStyle(fontSize: 16))),
+                            Padding(
+                                padding: EdgeInsets.all(5.0),
+                                child: Text(Display.lowAlerts,
+                                    style: TextStyle(fontSize: 16))),
+                            Padding(
+                                padding: EdgeInsets.all(5.0),
+                                child: Text(Display.highAlerts,
+                                    style: TextStyle(fontSize: 16))),
+                            Padding(
+                                padding: EdgeInsets.all(5.0),
+                                child: Text(Display.noWaterDays,
+                                    style: TextStyle(fontSize: 16)))
+                          ])),
                   //Display In Flow Screenshot
                   Card(
                     child: Image.memory(globals.imageInFlow),
@@ -93,15 +104,14 @@ class DownloadScreen extends StatelessWidget {
             } else {
               return Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [CircularProgressIndicator()]);
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [CircularProgressIndicator()],
+                    )
+                  ]);
             }
           }),
         ));
   }
-
-
-
-
-
-
 }

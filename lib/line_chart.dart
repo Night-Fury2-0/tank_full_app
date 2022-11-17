@@ -38,7 +38,9 @@ class _GraphState extends State<Graph> {
               zoomMode: ZoomMode.x,
               enablePanning: true,
             ),
-            primaryXAxis: CategoryAxis(),
+            primaryXAxis: CategoryAxis(
+              title: AxisTitle(text: "Days"),
+            ),
             primaryYAxis: NumericAxis(
                 title: AxisTitle(text: "Liters")), //what does this do?
             title: ChartTitle(

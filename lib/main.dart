@@ -22,6 +22,7 @@ import 'package:push/push.dart';
 import 'dart:typed_data';
 import 'package:rxdart/rxdart.dart';
 import 'package:async/async.dart';
+import 'dart:developer';
 //import 'package:stream_transform/stream_transform.dart';
 
 void main() {
@@ -101,24 +102,38 @@ class _MyHomePageState extends State<MyHomePage>
   ScreenshotController screenshotController = ScreenshotController();
 
   String inflowFromfile =
-      "905 1055 1190 1307 1399 1463 1495 1495 1463 1399 1307 1190 1055 905 749 594 444 309 192 100 36 4 4 36 100 192 309 444 594 750";
+      "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0";
   String outflowFromfile =
-      "362 422 476 522 559 585 598 598 585 559 522 476 422 362 299 237 177 123 77 40 14 1 1 14 40 77 123 177 237 300";
+      "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0";
   String tankFromfile =
-      "541 741 525 1063 742 802 762 1426 824 1130 597 605 648 503 387 140 238 363 65 273 361 218 343 203 342 402 228 320 119 767";
+      "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0";
   //List<GraphData> inFlow = <GraphData>[];
   //List<GraphData> outFlow = <GraphData>[];
   List<double> Indata = [];
   List<double> Outdata = [];
 
+  late final Future myfuture;
+
   //var water_level = 0.0;
   bool checkerL = true;
   bool checkerU = true;
 
-  getData() async {
-    inflowFromfile = await rootBundle.loadString('assets/InFlowData.txt');
-    outflowFromfile = await rootBundle.loadString('assets/OutFlowData.txt');
-    tankFromfile = await rootBundle.loadString('assets/TankLevelData.txt');
+  Future<String> getData1() async {
+    String inflowFromfile =
+        await rootBundle.loadString('assets/InFlowData.txt');
+    return inflowFromfile;
+  }
+
+  Future<String> getData2() async {
+    String outflowFromfile =
+        await rootBundle.loadString('assets/OutFlowData.txt');
+    return outflowFromfile;
+  }
+
+  Future<String> getData3() async {
+    String tankFromfile =
+        await rootBundle.loadString('assets/TankLevelData.txt');
+    return tankFromfile;
   }
 
   Stream<GraphData> inputData() async* {
@@ -134,9 +149,19 @@ class _MyHomePageState extends State<MyHomePage>
 
       await Future<void>.delayed(const Duration(seconds: 1));
       globals.inFlow.removeAt(0);
-      print('In: ${globals.inFlow[i].liter}');
+      //inspect(globals.inFlow);
+      print('In: ${i}');
       yield GraphData(formattedDate, Indata[i]);
     }
+    var now = DateTime.now();
+    //Formats the data to Month-Day
+    var formatter = DateFormat('dd-MM');
+    //Gets past 30 days using 'i'
+    var date = DateTime(now.year, now.month, now.day + 30);
+
+    //Creates string of the date and formats it
+    String formattedDate = formatter.format(date);
+    yield GraphData(formattedDate, Indata[29]);
   }
 
   Stream<GraphData> outputData() async* {
@@ -152,20 +177,31 @@ class _MyHomePageState extends State<MyHomePage>
 
       await Future<void>.delayed(const Duration(seconds: 1));
       globals.outFlow.removeAt(0);
-      print("Tank: ${globals.outFlow[i].liter}");
+      print("Out: ${globals.outFlow[i].liter}");
       yield GraphData(formattedDate, Outdata[i]);
     }
+    var now = DateTime.now();
+    //Formats the data to Month-Day
+    var formatter = DateFormat('dd-MM');
+    //Gets past 30 days using 'i'
+    var date = DateTime(now.year, now.month, now.day + 30);
+
+    //Creates string of the date and formats it
+    String formattedDate = formatter.format(date);
+    yield GraphData(formattedDate, Outdata[29]);
   }
 
   Stream<dynamic> gettankData() async* {
     for (int i = 0; i < 30; i++) {
       await Future<void>.delayed(const Duration(seconds: 1));
-      print("Out: ${globals.Tankdata[i]}");
+      print("Tank: ${globals.Tankdata[i]}");
       threshold(globals.Tankdata[i]);
+      //print(globals.Tankdata);
       yield (globals.Tankdata[i] / 1500);
     }
   }
 
+  late StreamBuilder myStream;
   //Initilizes the instabug package
   @override
   void initState() {
@@ -181,6 +217,10 @@ class _MyHomePageState extends State<MyHomePage>
 
     var level = 0.65;
 
+    Future<String> a = getData1();
+    Future<String> b = getData2();
+    Future<String> c = getData3();
+
     var percentage = level * 100;
     var color;
     if (level <= 0.25) {
@@ -195,258 +235,277 @@ class _MyHomePageState extends State<MyHomePage>
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
 
-    getData();
+    //getData();
     //Future.delayed(const Duration(seconds: 150), () {
     //etData();
     //});
 
-    getList();
-
     return Scaffold(
-      drawer: NavBar(),
-      onDrawerChanged: (isOpened) async {},
-      appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Image.asset(
-              'assets/images/Logo_appbar_negative.png',
-              fit: BoxFit.cover,
-              height: 32,
-              width: 32,
-            ),
-            Container(
-                padding: const EdgeInsets.fromLTRB(1, 1, 0, 1),
-                child: Text(widget.title))
+        drawer: NavBar(),
+        onDrawerChanged: (isOpened) async {},
+        appBar: AppBar(
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Image.asset(
+                'assets/images/Logo_appbar_negative.png',
+                fit: BoxFit.cover,
+                height: 32,
+                width: 32,
+              ),
+              Container(
+                  padding: const EdgeInsets.fromLTRB(1, 1, 0, 1),
+                  child: Text(widget.title))
+            ],
+          ),
+          actions: <Widget>[
+            Padding(
+                padding: EdgeInsets.only(right: 20.0),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SettingsScreen()),
+                    );
+                  },
+                  child: Icon(
+                    Icons.settings,
+                    size: 26.0,
+                  ),
+                )),
+            Padding(
+                padding: EdgeInsets.only(right: 20.0),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const HelpScreen()),
+                    );
+                  },
+                  child: Icon(Icons.help),
+                )),
           ],
         ),
-        actions: <Widget>[
-          Padding(
-              padding: EdgeInsets.only(right: 20.0),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const SettingsScreen()),
-                  );
-                },
-                child: Icon(
-                  Icons.settings,
-                  size: 26.0,
-                ),
-              )),
-          Padding(
-              padding: EdgeInsets.only(right: 20.0),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const HelpScreen()),
-                  );
-                },
-                child: Icon(Icons.help),
-              )),
-        ],
-      ),
-      body: Center(
-        child: SingleChildScrollView(
-            child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            //
-            //
-            //
-            //Tank widget and graph widgets go inside this "children" container(?)
+        body: FutureBuilder<List<String>>(
+            future: Future.wait([a, b, c]),
+            builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
+              if (snapshot.hasData) {
+                inflowFromfile = snapshot.data![0];
+                outflowFromfile = snapshot.data![1];
+                tankFromfile = snapshot.data![2];
+                getList();
 
-            //Tank code goes here********************************************************************************
-
-            StreamBuilder(
-                stream: stream3,
-                builder: (context, AsyncSnapshot<dynamic> snapshot1) {
-                  if (snapshot1.hasData) {
-                    level = snapshot1.data!;
-                    percentage = level * 100;
-                    if (level <= 0.25) {
-                      color = AlwaysStoppedAnimation(Colors.red);
-                    } else {
-                      color = AlwaysStoppedAnimation(Colors.blue);
-                    }
-                  }
-                  return LiquidCustomProgressIndicator(
-                    value: level, // Defaults to 0.5.
-                    valueColor:
-                        color, // Defaults to the current Theme's accentColor.
-                    backgroundColor: const Color.fromARGB(255, 130, 123,
-                        123), // Defaults to the current Theme's backgroundColor.
-                    direction: Axis
-                        .vertical, // The direction the liquid moves (Axis.vertical = bottom to top, Axis.horizontal = left to right).
-                    shapePath:
-                        _buildBoatPath(), // A Path object used to draw the shape of the progress indicator. The size of the progress indicator is created from the bounds of this path.
-                    //var percentage,
-
-                    center: Text(
-                      "${percentage.toStringAsFixed(0)}%",
-                      style: const TextStyle(
-                        color: Color.fromARGB(255, 48, 40, 40),
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  );
-                }),
-            StreamBuilder(
-                stream: stream1,
-                builder: (ctx, AsyncSnapshot<GraphData> snapshot) {
-                  if (snapshot.hasData) {
-                    globals.inFlow.add(snapshot.data!);
-                  }
-                  return Card(
-                      color: themeColor(),
+                return Center(
+                  child: SingleChildScrollView(
                       child: Column(
-                        children: [
-                          InkWell(
-                            splashColor: Colors.grey.withOpacity(0.4),
-                            onTap: () {
-                              onTapExpand(
-                                  context,
-                                  Graph(
-                                      graphTitle: 'In-flow',
-                                      data: globals.inFlow));
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.fromLTRB(10, 5, 10, 0),
-                              child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: <Widget>[
-                                    Container(
-                                      height: 20,
-                                      width: 20,
-                                      color: Colors.transparent,
-                                      child: const Padding(
-                                        padding:
-                                            EdgeInsets.fromLTRB(5, 0, 5, 5),
-                                        child:
-                                            Icon(Icons.open_in_full, size: 20),
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      //
+                      //
+                      //
+                      //Tank widget and graph widgets go inside this "children" container(?)
+
+                      //Tank code goes here********************************************************************************
+
+                      StreamBuilder(
+                          stream: stream3,
+                          builder: (context, AsyncSnapshot<dynamic> snapshot1) {
+                            if (snapshot1.hasData) {
+                              level = snapshot1.data!;
+                              percentage = level * 100;
+                              if (level <= 0.25) {
+                                color = AlwaysStoppedAnimation(Colors.red);
+                              } else {
+                                color = AlwaysStoppedAnimation(Colors.blue);
+                              }
+                            }
+                            return LiquidCustomProgressIndicator(
+                              value: level, // Defaults to 0.5.
+                              valueColor:
+                                  color, // Defaults to the current Theme's accentColor.
+                              backgroundColor: const Color.fromARGB(
+                                  255,
+                                  130,
+                                  123,
+                                  123), // Defaults to the current Theme's backgroundColor.
+                              direction: Axis
+                                  .vertical, // The direction the liquid moves (Axis.vertical = bottom to top, Axis.horizontal = left to right).
+                              shapePath:
+                                  _buildBoatPath(), // A Path object used to draw the shape of the progress indicator. The size of the progress indicator is created from the bounds of this path.
+                              //var percentage,
+
+                              center: Text(
+                                "${percentage.toStringAsFixed(0)}%",
+                                style: const TextStyle(
+                                  color: Color.fromARGB(255, 48, 40, 40),
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            );
+                          }),
+                      StreamBuilder(
+                          stream: stream1,
+                          builder: (ctx, AsyncSnapshot<GraphData> snapshot) {
+                            if (snapshot.hasData) {
+                              globals.inFlow.add(snapshot.data!);
+                            }
+                            return Card(
+                                color: themeColor(),
+                                child: Column(
+                                  children: [
+                                    InkWell(
+                                      splashColor: Colors.grey.withOpacity(0.4),
+                                      onTap: () {
+                                        onTapExpand(
+                                            context,
+                                            Graph(
+                                                graphTitle: 'In-flow',
+                                                data: globals.inFlow));
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            10, 5, 10, 0),
+                                        child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: <Widget>[
+                                              Container(
+                                                height: 20,
+                                                width: 20,
+                                                color: Colors.transparent,
+                                                child: const Padding(
+                                                  padding: EdgeInsets.fromLTRB(
+                                                      5, 0, 5, 5),
+                                                  child: Icon(
+                                                      Icons.open_in_full,
+                                                      size: 20),
+                                                ),
+                                              ),
+                                            ]),
                                       ),
                                     ),
-                                  ]),
-                            ),
-                          ),
-                          SizedBox(
-                              height: 180,
-                              width: 400,
-                              child: Graph(
-                                graphTitle: 'In-flow',
-                                data: globals.inFlow,
-                              )),
-                        ],
-                      ));
-                }),
-            //
-            //
-            //
-            //
-            //
+                                    SizedBox(
+                                        height: 200,
+                                        width: 400,
+                                        child: Graph(
+                                          graphTitle: 'In-flow',
+                                          data: globals.inFlow,
+                                        )),
+                                  ],
+                                ));
+                          }),
+                      //
+                      //
+                      //
+                      //
+                      //
 
-            StreamBuilder(
-                stream: stream2,
-                builder: (ctx, AsyncSnapshot<GraphData> snapshot) {
-                  if (snapshot.hasData) {
-                    globals.outFlow.add(snapshot.data!);
-                  }
-                  return Card(
-                      color: themeColor(),
-                      child: Column(
-                        children: [
-                          InkWell(
-                            splashColor: Colors.grey.withOpacity(0.4),
-                            onTap: () {
-                              onTapExpand(
-                                  context,
-                                  Graph(
-                                      graphTitle: 'Out-flow',
-                                      data: globals.outFlow));
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.fromLTRB(10, 5, 10, 0),
-                              child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: <Widget>[
-                                    Container(
-                                      height: 20,
-                                      width: 20,
-                                      color: Colors.transparent,
-                                      child: const Padding(
-                                        padding:
-                                            EdgeInsets.fromLTRB(5, 0, 5, 5),
-                                        child:
-                                            Icon(Icons.open_in_full, size: 20),
+                      StreamBuilder(
+                          stream: stream2,
+                          builder: (ctx, AsyncSnapshot<GraphData> snapshot) {
+                            if (snapshot.hasData) {
+                              globals.outFlow.add(snapshot.data!);
+                            }
+                            return Card(
+                                color: themeColor(),
+                                child: Column(
+                                  children: [
+                                    InkWell(
+                                      splashColor: Colors.grey.withOpacity(0.4),
+                                      onTap: () {
+                                        onTapExpand(
+                                            context,
+                                            Graph(
+                                                graphTitle: 'Out-flow',
+                                                data: globals.outFlow));
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            10, 5, 10, 0),
+                                        child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: <Widget>[
+                                              Container(
+                                                height: 20,
+                                                width: 20,
+                                                color: Colors.transparent,
+                                                child: const Padding(
+                                                  padding: EdgeInsets.fromLTRB(
+                                                      5, 0, 5, 5),
+                                                  child: Icon(
+                                                      Icons.open_in_full,
+                                                      size: 20),
+                                                ),
+                                              ),
+                                            ]),
                                       ),
                                     ),
-                                  ]),
-                            ),
-                          ),
-                          SizedBox(
-                              height: 180,
-                              width: 400,
-                              child: Graph(
-                                graphTitle: 'Out-flow',
-                                data: globals.outFlow,
-                              )),
-                        ],
-                      ));
-                }),
+                                    SizedBox(
+                                        height: 200,
+                                        width: 400,
+                                        child: Graph(
+                                          graphTitle: 'Out-flow',
+                                          data: globals.outFlow,
+                                        )),
+                                  ],
+                                ));
+                          }),
 
-            //
-            //
-            //
-            //
-            //
-            //
-            //
-            //
-            //
-            //
-            //
-            //
-            //
-            //
-            //
-            //
-            //
-            //
-            //
-            //
-            //
-            //
-            //
-            //
-            //
-            //
-            //
-            //
-            //
-            //
-            //
-            //
-            //
-            //
-            //
-            //
-            //
-            //
-            //
-            //
-            //
-            //
-            //
-            //
-            //*)
-          ],
-        )),
-      ),
-    );
+                      //
+                      //
+                      //
+                      //
+                      //
+                      //
+                      //
+                      //
+                      //
+                      //
+                      //
+                      //
+                      //
+                      //
+                      //
+                      //
+                      //
+                      //
+                      //
+                      //
+                      //
+                      //
+                      //
+                      //
+                      //
+                      //
+                      //
+                      //
+                      //
+                      //
+                      //
+                      //
+                      //
+                      //
+                      //
+                      //
+                      //
+                      //
+                      //
+                      //
+                      //
+                      //
+                      //
+                      //
+                      //*)
+                    ],
+                  )),
+                );
+              }
+              return CircularProgressIndicator();
+            }));
   }
 
   void getList() {
@@ -483,6 +542,8 @@ class _MyHomePageState extends State<MyHomePage>
       graphLable2[formattedDate] = 0;
     }
 
+    print(graphLable1);
+
     //Populate list with the dates and values from the map
     for (final mapEntry in graphLable1.entries) {
       inf.add(GraphData(mapEntry.key, mapEntry.value));
@@ -493,10 +554,8 @@ class _MyHomePageState extends State<MyHomePage>
       outf.add(GraphData(mapEntry.key, mapEntry.value));
     }
 
-    setState(() {
-      globals.inFlow = inf;
-      globals.outFlow = outf;
-    });
+    globals.inFlow = inf;
+    globals.outFlow = outf;
 
     //return dataTest;
   }

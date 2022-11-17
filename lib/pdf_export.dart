@@ -2,15 +2,15 @@ import 'dart:typed_data';
 
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
-import 'globals.dart';
+import 'globals.dart' as globals;
 
 import 'pdf_data.dart';
 
-final Output Display = Output('September-October','5','8','9');
+final Output Display = Output(globals.lowerCount.toString(),
+    globals.upperCount.toString(), globals.noWaterCount.toString());
 
-final inflowIMG = MemoryImage(imageInFlow);
-final outflowIMG = MemoryImage(imageOutFlow);
-
+final inflowIMG = MemoryImage(globals.imageInFlow);
+final outflowIMG = MemoryImage(globals.imageOutFlow);
 
 //Function to actually create the pdf.
 Future<Uint8List> makePdf(Output data) async {
@@ -23,14 +23,28 @@ Future<Uint8List> makePdf(Output data) async {
       //Must be generally the same as the download screen's body layout.
       children: [
         Padding(
-          padding: EdgeInsets.all(15.0),
-          child:Column(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start,
-          children: [Text(Display.period,style: TextStyle(fontSize: 14)),
-          Text(Display.lowAlerts,style: TextStyle(fontSize: 14)),
-          Text(Display.highAlerts, style: TextStyle(fontSize: 14)), 
-          Text(Display.noWaterDays, style: TextStyle(fontSize: 14))]
-          ) ,
-        ),
+            padding: EdgeInsets.all(15.0),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                      padding: EdgeInsets.all(5.0),
+                      child:
+                          Text(Display.period, style: TextStyle(fontSize: 16))),
+                  Padding(
+                      padding: EdgeInsets.all(5.0),
+                      child: Text(Display.lowAlerts,
+                          style: TextStyle(fontSize: 16))),
+                  Padding(
+                      padding: EdgeInsets.all(5.0),
+                      child: Text(Display.highAlerts,
+                          style: TextStyle(fontSize: 16))),
+                  Padding(
+                      padding: EdgeInsets.all(5.0),
+                      child: Text(Display.noWaterDays,
+                          style: TextStyle(fontSize: 16)))
+                ])),
         Padding(
           padding: EdgeInsets.all(15.0),
           child: Image(inflowIMG),
