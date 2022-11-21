@@ -8,9 +8,13 @@ class HelpScreen extends StatefulWidget {
 
   //Contains the list of all images to be used in the help page
   static List<String> imageList = [
-    'assets/images/test1.jpg',
-    'assets/images/test2.jpg',
-    'assets/images/test3.jpg',
+    'assets/images/Home_Screen_Annotated.png',
+    'assets/images/Home_Page_Features.png',
+    'assets/images/Hamburger_Menu.png',
+    'assets/images/Export_Screen.png',
+    'assets/images/PDF_Preview.png',
+    'assets/images/Settings_Screen.png-mh.png',
+    'assets/images/Report_a_Bug.png',
   ];
 
   @override
