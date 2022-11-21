@@ -15,6 +15,7 @@ class HelpScreen extends StatefulWidget {
     'assets/images/PDF_Preview.png',
     'assets/images/Settings_Screen.png-mh.png',
     'assets/images/Report_a_Bug.png',
+    'assets/images/Faq.jpg'
   ];
 
   @override
