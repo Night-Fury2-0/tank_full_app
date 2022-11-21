@@ -147,7 +147,7 @@ class _MyHomePageState extends State<MyHomePage>
       //Creates string of the date and formats it
       String formattedDate = formatter.format(date);
 
-      await Future<void>.delayed(const Duration(seconds: 1));
+      await Future<void>.delayed(const Duration(seconds: 2));
       globals.inFlow.removeAt(0);
       //inspect(globals.inFlow);
       print('In: ${i}');
@@ -175,7 +175,7 @@ class _MyHomePageState extends State<MyHomePage>
       //Creates string of the date and formats it
       String formattedDate = formatter.format(date);
 
-      await Future<void>.delayed(const Duration(seconds: 1));
+      await Future<void>.delayed(const Duration(seconds: 2));
       globals.outFlow.removeAt(0);
       print("Out: ${globals.outFlow[i].liter}");
       yield GraphData(formattedDate, Outdata[i]);
@@ -193,7 +193,7 @@ class _MyHomePageState extends State<MyHomePage>
 
   Stream<dynamic> gettankData() async* {
     for (int i = 0; i < 30; i++) {
-      await Future<void>.delayed(const Duration(seconds: 1));
+      await Future<void>.delayed(const Duration(seconds: 2));
       print("Tank: ${globals.Tankdata[i]}");
       threshold(globals.Tankdata[i]);
       //print(globals.Tankdata);
@@ -215,7 +215,7 @@ class _MyHomePageState extends State<MyHomePage>
     Stream<GraphData> stream2 = outputData().asBroadcastStream();
     Stream<dynamic> stream3 = gettankData().asBroadcastStream();
 
-    var level = 0.65;
+    var level = 0.0;
 
     Future<String> a = getData1();
     Future<String> b = getData2();
