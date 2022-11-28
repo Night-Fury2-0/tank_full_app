@@ -76,6 +76,11 @@ class DownloadScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            //Displays the statistics on the Downloads page in the format:
+                            //Time Period: --
+                            //Number of Low Alerts: --
+                            //Number of High Alerts: --
+                            //Number of Days without water: --
                             Padding(
                                 padding: EdgeInsets.all(5.0),
                                 child: Text(Display.period,

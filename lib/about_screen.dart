@@ -3,6 +3,8 @@ import 'NavBar.dart';
 
 class AboutScreen extends StatelessWidget {
   const AboutScreen({super.key});
+
+  //takes in a list of strings to be displayed as bullet points
   static List<String> bulletpoints = [
     "In-flow and Out-flow measurements with 30-day graphical representations.",
     "Water level monitoring with visual and percentage representations.",
@@ -10,10 +12,10 @@ class AboutScreen extends StatelessWidget {
     "A printable PDF document with graphs and statistics about the water level and flow in your tank for the last 30-days."
   ];
 
+  //Foramts a;; text on screen as sepearate blocks of text
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        //drawer: NavBar(),
         appBar: AppBar(
           title: const Text('About'),
         ),
