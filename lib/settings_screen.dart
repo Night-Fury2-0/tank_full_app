@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'NavBar.dart';
 import 'globals.dart' as globals;
 import 'package:flutter_switch/flutter_switch.dart';
-import 'help_screen.dart';
 import 'main.dart';
 
 class SettingsScreen extends StatefulWidget {

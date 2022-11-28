@@ -1,6 +1,5 @@
 //class for the data on the PDF
 import 'package:intl/intl.dart';
-import 'globals.dart' as globals;
 
 //Output Class to output data on the PDF file
 class Output {

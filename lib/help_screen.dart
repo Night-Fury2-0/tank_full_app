@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'NavBar.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:getwidget/getwidget.dart';
 
 class HelpScreen extends StatefulWidget {
@@ -38,13 +36,13 @@ class _HelpScreenState extends State<HelpScreen> {
         child: GFCarousel(
           height: height,
           hasPagination: true,
-          passiveIndicator: Color.fromARGB(255, 37, 84, 155),
-          activeIndicator: Color.fromARGB(255, 0, 225, 255),
+          passiveIndicator: const Color.fromARGB(255, 37, 84, 155),
+          activeIndicator: const Color.fromARGB(255, 0, 225, 255),
           viewportFraction: 1.0,
           items: HelpScreen.imageList.map(
             (path) {
               return Container(
-                margin: EdgeInsets.all(8.0),
+                margin: const EdgeInsets.all(8.0),
                 child: ClipRRect(
                   //borderRadius: BorderRadius.all(Radius.circular(5.0)),
                   child: Image.asset(path),

@@ -1,10 +1,5 @@
-import 'dart:io';
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:tankfull_app/pdf_previewer.dart';
-import 'NavBar.dart';
 import 'pdf_data.dart';
 import 'globals.dart' as globals;
 import 'settings_screen.dart';
