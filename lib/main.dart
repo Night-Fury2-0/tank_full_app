@@ -4,7 +4,7 @@ import 'NavBar.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'line_chart.dart';
 import 'globals.dart' as globals;
-import 'package:native_notify/native_notify.dart';
+//import 'package:native_notify/native_notify.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -18,9 +18,22 @@ import 'package:intl/intl.dart';
 import 'graph_data.dart';
 import 'package:screenshot/screenshot.dart';
 
-void main() {
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  NativeNotify.initialize(2008, 'Z2e68owQIdIjAXVM5tbQu0', null, null);
+  //NativeNotify.initialize(2008, 'Z2e68owQIdIjAXVM5tbQu0', null, null);
+  await Firebase.initializeApp(
+      name: "Tankfull",
+      options: FirebaseOptions(
+        apiKey: "AIzaSyDewNAr2EKoOI44zL-HUqNxhLiSCwS27wM",
+        messagingSenderId: "1019476996969",
+        appId: "1:1019476996969:android:00b949cf9a063ec36503f8",
+        projectId: "tankfullapp-25869",
+        authDomain: "tankfullapp-25869.firebaseapp.com",
+        databaseURL: "https://tankfullapp-25869-default-rtdb.firebaseio.com",
+      ));
   runApp(MaterialApp(home: MyApp()));
 }
 
@@ -79,6 +92,11 @@ class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
   //Create an instance of ScreenshotController. The screenshot controller is called when a screenshot needs to be taken
   ScreenshotController screenshotController = ScreenshotController();
+
+  DatabaseReference dbRef = FirebaseDatabase.instance.ref().child('Tank_1');
+  dynamic retrievedData = 0.00;
+
+  DatabaseReference dbRef2 = FirebaseDatabase.instance.ref().child('Tank_1/');
 
 //Zeros used to initialise the strings. These strings are used to store data retrieved from textfiles.
   String inflowFromfile =
@@ -160,7 +178,7 @@ class _MyHomePageState extends State<MyHomePage>
 
       await Future<void>.delayed(const Duration(seconds: 2));
       globals.outFlow.removeAt(0);
-      print("Out: ${globals.outFlow[i].liter}");
+      //print("Out: ${globals.outFlow[i].liter}");
       yield GraphData(formattedDate, Outdata[i]);
     }
 
@@ -176,10 +194,10 @@ class _MyHomePageState extends State<MyHomePage>
   Stream<dynamic> gettankData() async* {
     for (int i = 0; i < 30; i++) {
       await Future<void>.delayed(const Duration(seconds: 2));
-      print("Tank: ${globals.Tankdata[i]}");
-      threshold(globals.Tankdata[i]);
+      //print("Tank: ${globals.Tankdata[i]}");
+      //threshold(globals.Tankdata[i]);
       //print(globals.Tankdata);
-      yield (globals.Tankdata[i] / 1500);
+      //yield (globals.Tankdata[i] / 1500);
     }
   }
 
@@ -215,6 +233,13 @@ class _MyHomePageState extends State<MyHomePage>
     } else {
       color = const AlwaysStoppedAnimation(Colors.blue);
     }
+
+    dbRef2.onValue.listen(
+      (DatabaseEvent event) {
+        final data = event.snapshot.value;
+        print('Data from firebase: $data');
+      },
+    );
 
     return Scaffold(
         drawer: NavBar(), //Calls navbar function on homepage
@@ -267,17 +292,13 @@ class _MyHomePageState extends State<MyHomePage>
           ],
         ),
         //Future builder used to wait for the a, b, and c to retrieve data from files before loading homepage
-        body: FutureBuilder<List<String>>(
-            future: Future.wait([a, b, c]), //waits for a,b, and c
-            builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
+        body: FutureBuilder<DatabaseEvent>(
+            future: dbRef.once(),
+            builder:
+                (BuildContext context, AsyncSnapshot<DatabaseEvent> snapshot) {
               if (snapshot.hasData) {
-                //snapshot stores the data, i think.
-                //The data stored in snapshot is then pushed to each string
-                inflowFromfile = snapshot.data![0];
-                outflowFromfile = snapshot.data![1];
-                tankFromfile = snapshot.data![2];
-                //function to convert strings to double and put it into GraphData class
-                getList();
+                retrievedData = snapshot.data;
+                print('$retrievedData');
 
                 return Column(
                   //alignment: Alignment.center,
@@ -383,61 +404,6 @@ class _MyHomePageState extends State<MyHomePage>
                                           child: Graph(
                                             graphTitle: 'In-flow',
                                             data: globals.inFlow,
-                                          )),
-                                    ],
-                                  ));
-                            }),
-
-                        //Stream builder used for second graph
-                        StreamBuilder(
-                            stream: stream2,
-                            builder: (ctx, AsyncSnapshot<GraphData> snapshot) {
-                              if (snapshot.hasData) {
-                                globals.outFlow.add(snapshot.data!);
-                              }
-                              return Card(
-                                  color: themeColor(),
-                                  child: Column(
-                                    children: [
-                                      InkWell(
-                                        splashColor:
-                                            Colors.grey.withOpacity(0.4),
-                                        onTap: () {
-                                          onTapExpand(
-                                              context,
-                                              Graph(
-                                                  graphTitle: 'Out-flow',
-                                                  data: globals.outFlow));
-                                        },
-                                        child: Padding(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              10, 5, 10, 0),
-                                          child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                              children: <Widget>[
-                                                Container(
-                                                  height: 20,
-                                                  width: 20,
-                                                  color: Colors.transparent,
-                                                  child: const Padding(
-                                                    padding:
-                                                        EdgeInsets.fromLTRB(
-                                                            5, 0, 5, 5),
-                                                    child: Icon(
-                                                        Icons.open_in_full,
-                                                        size: 20),
-                                                  ),
-                                                ),
-                                              ]),
-                                        ),
-                                      ),
-                                      Container(
-                                          height: 200,
-                                          //width: 400,
-                                          child: Graph(
-                                            graphTitle: 'Out-flow',
-                                            data: globals.outFlow,
                                           )),
                                     ],
                                   ));

@@ -1,3 +1,4 @@
+//Class for graph data
 class GraphData {
   GraphData(this.day, this.liter);
 

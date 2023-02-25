@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "1021774876695",
-    "firebase_url": "https://tankfullapp-default-rtdb.firebaseio.com",
-    "project_id": "tankfullapp",
-    "storage_bucket": "tankfullapp.appspot.com"
+    "project_number": "1019476996969",
+    "firebase_url": "https://tankfullapp-25869-default-rtdb.firebaseio.com",
+    "project_id": "tankfullapp-25869",
+    "storage_bucket": "tankfullapp-25869.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1021774876695:android:f6c29d72abc57d6eebcc52",
+        "mobilesdk_app_id": "1:1019476996969:android:00b949cf9a063ec36503f8",
         "android_client_info": {
           "package_name": "com.example.water_v3"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1021774876695-s85pfcdtt2c2vgjkcbj1u9ljadeuj1pr.apps.googleusercontent.com",
+          "client_id": "1019476996969-1n10vqt6pnkbuedv3s01rpuqab0fo2cr.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC8126M8IvwzVg7Pu6Snprd_4W0HKWWpkc"
+          "current_key": "AIzaSyDewNAr2EKoOI44zL-HUqNxhLiSCwS27wM"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1021774876695-s85pfcdtt2c2vgjkcbj1u9ljadeuj1pr.apps.googleusercontent.com",
+              "client_id": "1019476996969-1n10vqt6pnkbuedv3s01rpuqab0fo2cr.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
