@@ -1,5 +1,14 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
+
+class MyCustomScrollBehavior extends MaterialScrollBehavior {
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+        PointerDeviceKind.touch,
+        PointerDeviceKind.mouse,
+      };
+}
 
 class HelpScreen extends StatefulWidget {
   const HelpScreen({super.key});
@@ -31,8 +40,9 @@ class _HelpScreenState extends State<HelpScreen> {
       appBar: AppBar(
         title: const Text('Help'),
       ),
-      body: Center(
+      body: ScrollConfiguration(
         //This is the main widget for the carousel
+        behavior: MyCustomScrollBehavior(),
         child: GFCarousel(
           height: height,
           hasPagination: true,

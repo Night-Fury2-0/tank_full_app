@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'dart:collection';
+import 'package:flutter/gestures.dart';
+
 import 'help_screen.dart';
 
 import 'package:flutter/material.dart';
@@ -352,4 +354,12 @@ String findCOMport(List<String> availablePorts) {
   }
 
   return port;
+}
+
+class MyCustomScrollBehavior extends MaterialScrollBehavior {
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+        PointerDeviceKind.touch,
+        PointerDeviceKind.mouse,
+      };
 }
